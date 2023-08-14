@@ -2,10 +2,10 @@
 using namespace std;
 
 //with dynamic programming
-int calculated_fibonacci_numbers[1000];
+long long int calculated_fibonacci_numbers[1000];
 
 //get Fibonacci number by a recursive function
-int Fibonacci(int n) {
+long long int Fibonacci(int n) {
 	if (n == 0 || n == 1) {
 		return n;
 	}
@@ -18,7 +18,7 @@ int Fibonacci(int n) {
 }
 
 int main() {
-	cout << "Which Fibonacci number do you need: ";	
+	cout << "Which Fibonacci number do you need: ";
 	int n;
 	cin >> n;
 
@@ -26,7 +26,7 @@ int main() {
 		calculated_fibonacci_numbers[i] = -1;
 	}
 
-	int fibonacci_number = Fibonacci(n);
+	long long int fibonacci_number = Fibonacci(n);
 	cout << "It is: " << fibonacci_number << endl;
 	return 0;
 }
