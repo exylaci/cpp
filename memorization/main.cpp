@@ -1,6 +1,17 @@
 #include <iostream>
 using namespace std;
 
+//calculate by bottom-up approach methodology
+long long int Fibonacci_bottop_up(int n) {
+	long long int fibonacci_numbers[1000] = {};
+	fibonacci_numbers[0] = 0;
+	fibonacci_numbers[1] = 1;
+	for (int i = 2; i <= n; ++i) {
+		fibonacci_numbers[i] = fibonacci_numbers[i - 2] + fibonacci_numbers[i - 1];
+	}
+	return fibonacci_numbers[n];
+}
+
 //with dynamic programming
 long long int calculated_fibonacci_numbers[1000];
 
@@ -22,11 +33,11 @@ int main() {
 	int n;
 	cin >> n;
 
-	for (int i = 0; i <=n; ++i) {
+	for (int i = 0; i <= n; ++i) {
 		calculated_fibonacci_numbers[i] = -1;
 	}
 
-	long long int fibonacci_number = Fibonacci(n);
-	cout << "It is: " << fibonacci_number << endl;
+	cout << "The recursive result is: " << Fibonacci(n) << endl;
+	cout << "The bottom-up result is: " << Fibonacci_bottop_up(n) << endl;
 	return 0;
 }
