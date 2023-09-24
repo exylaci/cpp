@@ -1,7 +1,7 @@
 Szabály: Mindig csak jobbra és lefelé lehet lépni. Balra, vagy felfelé tilos.
 Feladat: Meg kell találni a legkisebb összegű útvonalat a bal felső saroktól a jobb alsóig.
 Példa: lépések értéke:
-	3 6 7 
+	3 6 7
 	2 6 8
 	7 9 1
    haladás iránya: 3+6+7+8+1=25
