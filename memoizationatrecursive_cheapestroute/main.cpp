@@ -1,6 +1,22 @@
 #include <iostream>
 using namespace std;
 
+//with a for-loop
+int CalculateWithFor(int costs[][100], int top, int left, int bottom, int right) {
+	for (int i = 1; i <= bottom; ++i) {
+		costs[i][0] = costs[i][0] + costs[i - 1][0];
+	}
+	for (int i = 1; i <= right; ++i) {
+		costs[0][i] = costs[0][i] + costs[0][i-1];
+	}
+	for (int i = 1; i <= bottom; ++i) {
+		for (int j = 1; j <= right; ++j) {
+			costs[i][j] = min(costs[i - 1][j], costs[i][j - 1]) + costs[i][j];
+		}
+	}
+	return costs[bottom][right];
+}
+
 //reducting the overlapped recursive calls by memoization
 int calculated_routes[100][100];
 
@@ -47,5 +63,6 @@ int main() {
 	}
 
 	cout << "Cheapest route is: " << CalculateRoute(costs, 0, 0, r - 1, c - 1) << endl;
+	cout << "Calculate with for:" << CalculateWithFor(costs, 0, 0, r - 1, c - 1) << endl;
 	return 0;
 }
