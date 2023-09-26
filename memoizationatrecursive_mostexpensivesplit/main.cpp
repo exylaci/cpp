@@ -15,6 +15,7 @@ int CalculateSplits(int costs[], int length) {
 	for (int i = 1; i <= length; ++i) {
 		resoult = max(resoult, costs[i] + CalculateSplits(costs, length - i));
 	}
+	calculated_costs[length]=resoult;
 	return resoult;
 }
 
