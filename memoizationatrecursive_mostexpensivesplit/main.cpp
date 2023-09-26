@@ -1,6 +1,19 @@
 #include <iostream>
 using namespace std;
 
+//with a for-loop
+int CalculateWithFor(int costs[], int totallength) {
+	int calculated_costs[100] = {};
+	for (int actuallength = 1; actuallength <= totallength; ++actuallength) {
+		for (int partion = 1; partion <= actuallength; ++partion) {
+			calculated_costs[actuallength] = max(
+				calculated_costs[actuallength],
+				costs[partion] + calculated_costs[actuallength - partion]			);
+		}
+	}
+	return calculated_costs[totallength];
+}
+
 //reducting the overlapped recursive calls by memoization
 int calculated_costs[100];
 
@@ -15,7 +28,7 @@ int CalculateSplits(int costs[], int length) {
 	for (int i = 1; i <= length; ++i) {
 		resoult = max(resoult, costs[i] + CalculateSplits(costs, length - i));
 	}
-	calculated_costs[length]=resoult;
+	calculated_costs[length] = resoult;
 	return resoult;
 }
 
@@ -31,5 +44,6 @@ int main() {
 	}
 
 	cout << "The most expensive splits is: " << CalculateSplits(costs, length) << endl;
+	cout << " it calculated with for loop: " << CalculateWithFor(costs, length) << endl;
 	return 0;
 }
