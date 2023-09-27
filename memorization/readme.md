@@ -1,1 +1,0 @@
-Rekurzív hívásoknál az egyszer már kiszámolt (rész)eredmények eltárolásával és ezen korábban eltárolt adok előhívásával, felhasználásával elkerülhető az ismételt (rész)feladat végrehajtás. Ezzel gyorsítható a program futása.
