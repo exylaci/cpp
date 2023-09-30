@@ -13,10 +13,22 @@ std::string feladat1() {
 	string filename;
 	cin >> filename;
 
-	cout << "Adja meg egy sor számát! ";
-	cin >> row;
-	cout << "Adja meg egy oszlop számát! ";
-	cin >> column;
+	do {
+		cout << "Adja meg egy sor számát! ";
+		cin >> row;
+		if (row < 1 || row > 9) {
+			cout << "1 és 9 közötti számot adjon meg!" << endl;
+		}
+	} while (row < 1 || row > 9);
+
+	do {
+		cout << "Adja meg egy oszlop számát! ";
+		cin >> column;
+		if (column < 1 || column > 9) {
+			cout << "1 és 9 közötti számot adjon meg!" << endl;
+		}
+	} while (column < 1 || column > 9);
+
 	return filename;
 }
 
