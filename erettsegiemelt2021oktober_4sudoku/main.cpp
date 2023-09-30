@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 int panel[9][9];
 int row;
@@ -32,10 +33,25 @@ std::string feladat1() {
 	return filename;
 }
 
+void feladat2(std::string filename) {
+	std::ifstream fs{ filename };
+	for (int x = 0; x < 9; ++x) {
+		for (int y = 0; y < 9; ++y) {
+			fs >> panel[x][y];
+			std::cout << " " << panel[x][y];
+		}
+		std::cout << std::endl;
+	}
+	fs.close();
+}
+
+
 int main() {
 	SetConsoleOutputCP(1250);
 	std::string filename;
 	filename = feladat1();
+
+	feladat2(filename);
 
 	return 0;
 }
