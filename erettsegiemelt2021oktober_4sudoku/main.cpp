@@ -9,12 +9,16 @@ struct Step {
 	int row;
 	int column;
 };
-Step ReadOneStep(std::ifstream* fs);
 
 int panel[9][9];
 int row;
 int column;
+
 std::vector<Step> steps;
+Step ReadOneStep(std::ifstream* fs);
+bool RowContains(Step step);
+bool ColumnContains(Step step);
+bool SubPanelContains(Step step);
 
 std::string feladat1() {
 	using namespace std;
@@ -86,12 +90,12 @@ void feladat3() {
 
 	std::cout << "A hely a(z) " <<
 		1 + (row - 1) / 3 * 3 + (column - 1) / 3
-		<< " résztáblázathoz tartozik." << endl;
+		<< " résztáblázathoz tartozik." << endl << endl;
 }
 
 void feladat4() {
 	using namespace std;
-	cout << endl << "4. feladat" << endl;
+	cout << "4. feladat" << endl;
 
 	int counter{ 9 * 9 };
 	for (int i = 0; i < 9; ++i) {
@@ -104,8 +108,64 @@ void feladat4() {
 	float percentage{ (float)counter * 100 / (9 * 9) };
 
 	std::cout << "Az üres helyek aránya: " <<
-		std::setprecision(1) << std::fixed << percentage << "%" << endl;
+		std::setprecision(1) << std::fixed << percentage << "%" << endl << endl;
+}
 
+void feladat5() {
+	using namespace std;
+	cout << "5. feladat" << endl;
+	for (Step step : steps) {
+		cout << "A kiválasztott sor: " << step.row
+			<< " oszlop: " << step.column
+			<< " a szám: " << step.number << endl;
+		--step.row;
+		--step.column;
+		if (panel[step.row][step.column] > 0) {
+			cout << "A helyet már kitöltötték.";
+		}
+		else if (RowContains(step)) {
+			cout << "Az adott sorban már szerepel a szám.";
+		}
+		else if (ColumnContains(step)) {
+			cout << "Az adott oszlopban már szerepel a szám.";
+		}
+		else if (SubPanelContains(step)) {
+			cout << "Az adott résztáblázatban már szerepel a szám.";
+		}
+		else {
+			cout << "A lépés megtehetõ";
+		}
+		cout << endl << endl;
+	}
+}
+
+bool RowContains(Step step) {
+	for (int i = 0; i < 9; ++i) {
+		if (panel[step.row][i] == step.number) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ColumnContains(Step step) {
+	for (int i = 0; i < 9; ++i) {
+		if (panel[i][step.column] == step.number) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool SubPanelContains(Step step) {
+	for (int i = step.row / 3 * 3; i < (step.row / 3 + 1) * 3; ++i) {
+		for (int j = step.column / 3 * 3; j < (step.column / 3 + 1) * 3; ++j) {
+			if (panel[i][j] == step.number) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 int main() {
@@ -115,5 +175,6 @@ int main() {
 	feladat2(filename);
 	feladat3();
 	feladat4();
+	feladat5();
 	return 0;
 }
