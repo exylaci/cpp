@@ -49,7 +49,7 @@ void feladat2(std::string filename) {
 			fs >> panel[x][y];
 			//std::cout << " " << panel[x][y];
 		}
-		std::cout << std::endl;
+		//std::cout << std::endl;
 	}
 
 	while (!fs.eof()) {
@@ -72,10 +72,27 @@ Step ReadOneStep(std::ifstream* fs) {
 	return step;
 }
 
+void feladat3() {
+	using namespace std;
+	cout << "3. feladat" << endl;
+
+	if (panel[row-1][column-1] > 0) {
+		std::cout << "Az adott helyen szereplõ szám: " << panel[row-1][column-1] << endl;
+	}
+	else {
+		std::cout << "Az adott helyet még nem töltötték ki." << endl;
+	}
+
+	std::cout << "A hely a(z) " <<
+		1 + (row - 1) / 3 * 3 + (column - 1) / 3
+		<< " résztáblázathoz tartozik." << endl;
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	std::string filename;
 	filename = feladat1();
 	feladat2(filename);
+	feladat3();
 	return 0;
 }
