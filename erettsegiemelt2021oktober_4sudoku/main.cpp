@@ -1,10 +1,19 @@
 #include <iostream>
 #include <windows.h>
 #include <fstream>
+#include <vector>
+
+struct Step {
+	int number;
+	int row;
+	int column;
+};
+Step ReadOneStep(std::ifstream* fs);
 
 int panel[9][9];
 int row;
 int column;
+std::vector<Step> steps;
 
 std::string feladat1() {
 	using namespace std;
@@ -38,20 +47,35 @@ void feladat2(std::string filename) {
 	for (int x = 0; x < 9; ++x) {
 		for (int y = 0; y < 9; ++y) {
 			fs >> panel[x][y];
-			std::cout << " " << panel[x][y];
+			//std::cout << " " << panel[x][y];
 		}
 		std::cout << std::endl;
 	}
+
+	while (!fs.eof()) {
+		Step step{ ReadOneStep(&fs) };
+		if (step.number > 0) {
+			steps.push_back(step);
+			//std::cout << " Szám: " << steps.back().number << " pozíció: " <<
+			//	steps.back().row << "x" << steps.back().column << std::endl;
+		}
+	}
+
 	fs.close();
 }
 
+Step ReadOneStep(std::ifstream* fs) {
+	Step step{};
+	*fs >> step.number;
+	*fs >> step.row;
+	*fs >> step.column;
+	return step;
+}
 
 int main() {
 	SetConsoleOutputCP(1250);
 	std::string filename;
 	filename = feladat1();
-
 	feladat2(filename);
-
 	return 0;
 }
