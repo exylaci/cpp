@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <fstream>
 #include <vector>
+#include <iomanip>
 
 struct Step {
 	int number;
@@ -74,10 +75,10 @@ Step ReadOneStep(std::ifstream* fs) {
 
 void feladat3() {
 	using namespace std;
-	cout << "3. feladat" << endl;
+	cout << endl << "3. feladat" << endl;
 
-	if (panel[row-1][column-1] > 0) {
-		std::cout << "Az adott helyen szereplõ szám: " << panel[row-1][column-1] << endl;
+	if (panel[row - 1][column - 1] > 0) {
+		std::cout << "Az adott helyen szereplõ szám: " << panel[row - 1][column - 1] << endl;
 	}
 	else {
 		std::cout << "Az adott helyet még nem töltötték ki." << endl;
@@ -88,11 +89,31 @@ void feladat3() {
 		<< " résztáblázathoz tartozik." << endl;
 }
 
+void feladat4() {
+	using namespace std;
+	cout << endl << "4. feladat" << endl;
+
+	int counter{ 9 * 9 };
+	for (int i = 0; i < 9; ++i) {
+		for (int cell : panel[i]) {
+			if (cell > 0) {
+				--counter;
+			}
+		}
+	}
+	float percentage{ (float)counter * 100 / (9 * 9) };
+
+	std::cout << "Az üres helyek aránya: " <<
+		std::setprecision(1) << std::fixed << percentage << "%" << endl;
+
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	std::string filename;
 	filename = feladat1();
 	feladat2(filename);
 	feladat3();
+	feladat4();
 	return 0;
 }
