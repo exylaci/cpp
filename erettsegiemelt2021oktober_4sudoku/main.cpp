@@ -13,9 +13,10 @@ struct Step {
 int panel[9][9];
 int row;
 int column;
-
 std::vector<Step> steps;
+
 Step ReadOneStep(std::ifstream* fs);
+bool FilledAlready(Step step);
 bool RowContains(Step step);
 bool ColumnContains(Step step);
 bool SubPanelContains(Step step);
@@ -120,7 +121,7 @@ void feladat5() {
 			<< " a szám: " << step.number << endl;
 		--step.row;
 		--step.column;
-		if (panel[step.row][step.column] > 0) {
+		if (FilledAlready(step)) {
 			cout << "A helyet már kitöltötték.";
 		}
 		else if (RowContains(step)) {
@@ -137,6 +138,13 @@ void feladat5() {
 		}
 		cout << endl << endl;
 	}
+}
+
+bool FilledAlready(Step step) {
+	if (panel[step.row][step.column] > 0) {
+		return true;
+	}
+	return false;
 }
 
 bool RowContains(Step step) {
@@ -168,6 +176,39 @@ bool SubPanelContains(Step step) {
 	return false;
 }
 
+void feladatBonusz() {
+	std::cout << "Bónusz feladat:" << std::endl;
+	std::cout << "Azon mezõk kitöltése, ahova már csak egyetlen szám illik be." << std::endl;
+
+	bool findOne;
+	do {
+		findOne = false;
+		Step step;
+		for (step.row = 0; step.row < 9; ++step.row) {
+			for (step.column = 0; step.column < 9; ++step.column) {
+				if (!FilledAlready(step)) {
+					int good{ 0 };
+					for (step.number = 1; step.number < 10; ++step.number) {
+						if (!RowContains(step) && !ColumnContains(step) && !SubPanelContains(step)) {
+							if (good != 0) {
+								good = 10;
+								break;
+							}
+							good = step.number;
+						}
+					}
+					if (good != 10) {
+						panel[step.row][step.column] = good;
+						std::cout << "Megtalált helyes szám: " << good << " a(z) " <<
+							step.row + 1 << ":" << step.column + 1 << " mezõre." << std::endl;
+						findOne = true;
+					}
+				}
+			}
+		}
+	} while (findOne);
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	std::string filename;
@@ -176,5 +217,6 @@ int main() {
 	feladat3();
 	feladat4();
 	feladat5();
+	feladatBonusz();
 	return 0;
 }
