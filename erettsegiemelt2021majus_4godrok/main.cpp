@@ -76,11 +76,33 @@ void feladat4() {
 	fs.close();
 }
 
+void feladat5() {
+	using namespace std;
+	cout << "5. feladat" << endl;
+
+	bool newpit{ true };
+	int pieces{ 0 };
+
+	for (auto deep : deeps) {
+		if (deep != 0 && newpit) {
+			++pieces;
+			newpit = false;
+		}
+		if (deep == 0) {
+			newpit = true;
+		}
+	}
+
+	cout << "A gödrök száma: " << pieces << endl << endl;
+}
+
+
 int main() {
 	SetConsoleOutputCP(1250);
 	feladat1();
 	int distance{ feladat2() };
 	feladat3();
 	feladat4();
+	feladat5();
 	return 0;
 }
