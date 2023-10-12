@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 
 std::vector<int> deeps{};
 
@@ -40,9 +41,24 @@ int feladat2() {
 	return distance;
 }
 
+void feladat3() {
+	using namespace std;
+	cout << "3. feladat" << endl;
+	
+	int pieces{ 0 };
+	for (auto deep : deeps) {
+		if (deep == 0) { ++pieces; }
+	}
+	
+	cout << "Az érintetlen terület aránya " << 
+		std::setprecision(2) << std::fixed <<
+		((float)pieces)*100/deeps.size() << "%. " << endl << endl;
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	feladat1();
 	int distance{ feladat2() };
+	feladat3();
 	return 0;
 }
