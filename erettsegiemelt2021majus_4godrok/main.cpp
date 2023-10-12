@@ -44,15 +44,36 @@ int feladat2() {
 void feladat3() {
 	using namespace std;
 	cout << "3. feladat" << endl;
-	
+
 	int pieces{ 0 };
 	for (auto deep : deeps) {
 		if (deep == 0) { ++pieces; }
 	}
-	
-	cout << "Az érintetlen terület aránya " << 
+
+	cout << "Az érintetlen terület aránya " <<
 		std::setprecision(2) << std::fixed <<
-		((float)pieces)*100/deeps.size() << "%. " << endl << endl;
+		((float)pieces) * 100 / deeps.size() << "%."
+		<< endl << endl;
+}
+
+void feladat4() {
+	bool newline{ false };
+
+	std::ofstream fs{ "godrok.txt" };
+	for (auto deep : deeps) {
+		if (deep == 0 && newline) {
+			fs << std::endl;
+			newline = false;
+		}
+		if (deep != 0) {
+			if (newline) {
+				fs << " ";
+			}
+			fs << deep;
+			newline = true;
+		}
+	}
+	fs.close();
 }
 
 int main() {
@@ -60,5 +81,6 @@ int main() {
 	feladat1();
 	int distance{ feladat2() };
 	feladat3();
+	feladat4();
 	return 0;
 }
