@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
+
 std::vector<int> deeps{};
 
 void feladat1() {
@@ -46,9 +47,14 @@ void feladat3() {
 	cout << "3. feladat" << endl;
 
 	int pieces{ 0 };
-	for (auto deep : deeps) {
+	for (const auto &deep : deeps) {
 		if (deep == 0) { ++pieces; }
 	}
+
+	//#include <algorithm>
+	//pieces = 0;
+	//std::for_each(deeps.begin(), deeps.end(),
+	//	[&pieces](int deep) {if (deep == 0) { ++pieces; } });
 
 	cout << "Az érintetlen terület aránya " <<
 		std::setprecision(2) << std::fixed <<
@@ -60,7 +66,7 @@ void feladat4() {
 	bool newline{ false };
 
 	std::ofstream fs{ "godrok.txt" };
-	for (auto deep : deeps) {
+	for (const auto &deep : deeps) {
 		if (deep == 0 && newline) {
 			fs << std::endl;
 			newline = false;
@@ -83,7 +89,7 @@ void feladat5() {
 	bool newpit{ true };
 	int pieces{ 0 };
 
-	for (auto deep : deeps) {
+	for (const auto deep : deeps) {
 		if (deep != 0 && newpit) {
 			++pieces;
 			newpit = false;
@@ -95,7 +101,6 @@ void feladat5() {
 
 	cout << "A gödrök száma: " << pieces << endl << endl;
 }
-
 
 int main() {
 	SetConsoleOutputCP(1250);
