@@ -104,12 +104,23 @@ void feladat4() {
 
 bool hatar(int row, int treshold) {
 	int y{ row - 1 };
-	for (int x = 0; x < 639; ) {
-		if (abs(pixels[x][y].B - pixels[++x][y].B) > treshold) {
+	for (int x = 0; x < 639; ++x) {
+		if (abs(pixels[x][y].B - pixels[x + 1][y].B) > treshold) {
 			return true;
 		}
 	}
 	return false;
+}
+
+void feladat6() {
+	using namespace std;
+	cout << "6. feladat" << endl;
+
+	int row{ 1 };
+	while (!hatar(row++, 10));
+	cout << "A felhõ legfelsõ sora: " << row - 1 << endl;
+	while (hatar(row++, 10));
+	cout << "A felhõ legalsó sora: " << row - 2 << endl << endl;
 }
 
 int main() {
@@ -118,5 +129,6 @@ int main() {
 	feladat2();
 	feladat3();
 	feladat4();
+	feladat6();
 	return 0;
 }
