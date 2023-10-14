@@ -24,8 +24,27 @@ void feladat1() {
 	fs.close();
 }
 
+void feladat2() {
+	using namespace std;
+	cout << "2. feladat" << endl;
+
+	cout << "Kérem egy képpont adatait!" << endl << "Sor: ";
+	int row;
+	cin >> row;
+	cout << "Oszlop: ";
+	int column;
+	cin >> column;
+	--row;
+	--column;
+
+	cout << "A képpont színe RGB(" << (int)pixels[column][row].R << ", "
+		<< (int)pixels[column][row].G << ", "
+		<< (int)pixels[column][row].B << ")" << endl<<endl;
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	feladat1();
+	feladat2();
 	return 0;
 }
