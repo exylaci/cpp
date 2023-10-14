@@ -93,13 +93,23 @@ void feladat4() {
 	}
 
 	cout << "A legsötétebb pont RGB összege: " << darkest << endl;
-	cout << "A legsötétebb pixelek színe :" << endl;
+	cout << "A legsötétebb pixelek színe:" << endl;
 	for (auto& pixel : darkests) {
 		cout << "RGB(" << (int)pixel.R << ", "
 			<< (int)pixel.G << ", "
 			<< (int)pixel.B << ")" << endl;
 	}
 	cout << endl;
+}
+
+bool hatar(int row, int treshold) {
+	int y{ row - 1 };
+	for (int x = 0; x < 639; ) {
+		if (abs(pixels[x][y].B - pixels[++x][y].B) > treshold) {
+			return true;
+		}
+	}
+	return false;
 }
 
 int main() {
