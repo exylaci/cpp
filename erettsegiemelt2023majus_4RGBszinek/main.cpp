@@ -30,16 +30,28 @@ void feladat2() {
 
 	cout << "Kérem egy képpont adatait!" << endl << "Sor: ";
 	int row;
-	cin >> row;
+	do {
+		cin >> row;
+		if (row < 1 || row>360) {
+			cout << "1 és 360 közötti számot adj meg! Sor: ";
+		}
+	} while (row < 1 || row>360);
+
 	cout << "Oszlop: ";
 	int column;
-	cin >> column;
+	do {
+		cin >> column;
+		if (column < 1 || column>640) {
+			cout << "1 és 640 közötti számot adj meg! Oszlop: ";
+		}
+	} while (column < 1 || column>640);
+
 	--row;
 	--column;
 
 	cout << "A képpont színe RGB(" << (int)pixels[column][row].R << ", "
 		<< (int)pixels[column][row].G << ", "
-		<< (int)pixels[column][row].B << ")" << endl<<endl;
+		<< (int)pixels[column][row].B << ")" << endl << endl;
 }
 
 int main() {
