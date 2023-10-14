@@ -54,9 +54,26 @@ void feladat2() {
 		<< (int)pixels[column][row].B << ")" << endl << endl;
 }
 
+void feladat3() {
+	using namespace std;
+	cout << "3. feladat" << endl;
+
+	int pieces{ 0 };
+	for (int x = 0; x < 640; ++x) {
+		for (int y = 0; y < 360; ++y) {
+			if ((int)pixels[x][y].R + pixels[x][y].G + pixels[x][y].B > 600) {
+				++pieces;
+			}
+		}
+	}
+
+	cout << "A világos képpontok száma: " << pieces << endl << endl;
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	feladat1();
 	feladat2();
+	feladat3();
 	return 0;
 }
