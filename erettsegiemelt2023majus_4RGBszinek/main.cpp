@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 struct RGB {
 	unsigned char R;
@@ -70,10 +71,42 @@ void feladat3() {
 	cout << "A világos képpontok száma: " << pieces << endl << endl;
 }
 
+void feladat4() {
+	using namespace std;
+	cout << "4. feladat" << endl;
+
+	int darkest{ INT_MAX };
+	std::vector<RGB> darkests{};
+	int current;
+
+	for (int x = 0; x < 640; ++x) {
+		for (int y = 0; y < 360; ++y) {
+			current = (int)pixels[x][y].R + pixels[x][y].G + pixels[x][y].B;
+			if (current < darkest) {
+				darkests.clear();
+				darkest = current;
+			}
+			if (current == darkest) {
+				darkests.emplace_back(pixels[x][y]);
+			}
+		}
+	}
+
+	cout << "A legsötétebb pont RGB összege: " << darkest << endl;
+	cout << "A legsötétebb pixelek színe :" << endl;
+	for (auto& pixel : darkests) {
+		cout << "RGB(" << (int)pixel.R << ", "
+			<< (int)pixel.G << ", "
+			<< (int)pixel.B << ")" << endl;
+	}
+	cout << endl;
+}
+
 int main() {
 	SetConsoleOutputCP(1250);
 	feladat1();
 	feladat2();
 	feladat3();
+	feladat4();
 	return 0;
 }
