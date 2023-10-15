@@ -26,16 +26,34 @@ int main() {
 		fi.close();
 
 		//processing
-		int pieces{ 0 };
+		int resoult{ 0 };
+		char letters[]{ "VIRUS" };
+		for (int pieces{ 1 }; pieces < s.length() / 5; ++pieces) {
+			int letter{ 0 };
+			int counter{ 0 };
+			for (long index{ 0 }; index < s.length(); ++index) {
+				if (s[index] == letters[letter]) {
+					++counter;
+					if (counter == pieces) {
+						++letter;
+						if (letter > 4) {
+							resoult = pieces;
+							break;
+						}
+						counter = 0;
+					}
+				}
+			}
+		}
 
 		//saving
 		filename = "virus";
 		filename += counter;
 		filename += ".out.txt";
-		cout << filename << " : " << pieces << endl << endl;;
+		cout << filename << " : " << resoult << endl << endl;;
 
 		ofstream fo{ filename };
-		fo << pieces;
+		fo << resoult;
 		fo.close();
 	}
 }
