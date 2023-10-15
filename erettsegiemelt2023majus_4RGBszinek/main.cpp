@@ -117,10 +117,10 @@ void feladat6() {
 	cout << "6. feladat" << endl;
 
 	int row{ 1 };
-	while (!hatar(row++, 10));
-	cout << "A felhõ legfelsõ sora: " << row - 1 << endl;
-	while (hatar(row++, 10));
-	cout << "A felhõ legalsó sora: " << row - 2 << endl << endl;
+	while (!hatar(row, 10)) { ++row; }
+	cout << "A felhõ legfelsõ sora: " << row << endl;
+	while (hatar(row, 10)) { ++row; }
+	cout << "A felhõ legalsó sora: " << row - 1 << endl << endl;
 }
 
 int main() {
