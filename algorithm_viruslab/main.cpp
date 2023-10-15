@@ -28,21 +28,47 @@ int main() {
 		//processing
 		int resoult{ 0 };
 		char letters[]{ "VIRUS" };
-		for (int pieces{ 1 }; pieces < s.length() / 5; ++pieces) {
-			int letter{ 0 };
-			int counter{ 0 };
-			for (long index{ 0 }; index < s.length(); ++index) {
-				if (s[index] == letters[letter]) {
-					++counter;
-					if (counter == pieces) {
+		long maxPieces{ (long)s.length() / 5 + 1 };
+		long sLength{ (long)s.length() };
+		vector<long> lastPosition{ -1,-1,-1,-1,-1 };
+		vector<long> firstPosition{ LONG_MAX,LONG_MAX,LONG_MAX,LONG_MAX,LONG_MAX };
+
+		int have;
+		int letter;
+		char currentLetter;
+		for (int pieces{ 1 }; pieces < maxPieces; ++pieces) {
+			have = pieces - 1;
+			letter = 0;
+			currentLetter = 'V';
+			for (long index{ lastPosition.at(letter) + 1 }; index < sLength; ++index) {
+				if (s[index] == currentLetter) {
+					++have;
+					if (have == pieces) {
+						lastPosition.at(letter) = index;
 						++letter;
 						if (letter > 4) {
 							resoult = pieces;
 							break;
 						}
-						counter = 0;
+						currentLetter = letters[letter];
+						if (lastPosition.at(letter) <= index) {
+							lastPosition.at(letter) = index;
+							have = 0;
+						}
+						else {
+							have = pieces - 1;
+							for (long i{ firstPosition.at(letter) }; i <= index; ++i) {
+								if (s[i] == currentLetter) {
+									--have;
+								}
+							}
+						}
+						firstPosition.at(letter) = index;
 					}
 				}
+			}
+			if (resoult < pieces) {
+				break;
 			}
 		}
 
