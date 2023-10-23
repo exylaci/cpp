@@ -1,5 +1,7 @@
 #pragma once
 
+bool firstsRound{ true };
+
 namespace gui0Xgame {
 
 	using namespace System;
@@ -66,7 +68,7 @@ namespace gui0Xgame {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -106,6 +108,7 @@ namespace gui0Xgame {
 			this->txb1->Name = L"txb1";
 			this->txb1->Size = System::Drawing::Size(100, 20);
 			this->txb1->TabIndex = 1;
+			this->txb1->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb1_TextChanged);
 			// 
 			// txb2
 			// 
@@ -113,6 +116,7 @@ namespace gui0Xgame {
 			this->txb2->Name = L"txb2";
 			this->txb2->Size = System::Drawing::Size(100, 20);
 			this->txb2->TabIndex = 3;
+			this->txb2->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb2_TextChanged);
 			// 
 			// label2
 			// 
@@ -130,6 +134,7 @@ namespace gui0Xgame {
 			this->btn1->Size = System::Drawing::Size(75, 75);
 			this->btn1->TabIndex = 4;
 			this->btn1->UseVisualStyleBackColor = true;
+			this->btn1->Click += gcnew System::EventHandler(this, &MainWindow::btn1_Click);
 			// 
 			// btn2
 			// 
@@ -138,6 +143,7 @@ namespace gui0Xgame {
 			this->btn2->Size = System::Drawing::Size(75, 75);
 			this->btn2->TabIndex = 5;
 			this->btn2->UseVisualStyleBackColor = true;
+			this->btn2->Click += gcnew System::EventHandler(this, &MainWindow::btn2_Click);
 			// 
 			// btn3
 			// 
@@ -146,6 +152,7 @@ namespace gui0Xgame {
 			this->btn3->Size = System::Drawing::Size(75, 75);
 			this->btn3->TabIndex = 6;
 			this->btn3->UseVisualStyleBackColor = true;
+			this->btn3->Click += gcnew System::EventHandler(this, &MainWindow::btn3_Click);
 			// 
 			// btn6
 			// 
@@ -154,6 +161,7 @@ namespace gui0Xgame {
 			this->btn6->Size = System::Drawing::Size(75, 75);
 			this->btn6->TabIndex = 9;
 			this->btn6->UseVisualStyleBackColor = true;
+			this->btn6->Click += gcnew System::EventHandler(this, &MainWindow::btn6_Click);
 			// 
 			// btn5
 			// 
@@ -162,6 +170,7 @@ namespace gui0Xgame {
 			this->btn5->Size = System::Drawing::Size(75, 75);
 			this->btn5->TabIndex = 8;
 			this->btn5->UseVisualStyleBackColor = true;
+			this->btn5->Click += gcnew System::EventHandler(this, &MainWindow::btn5_Click);
 			// 
 			// btn4
 			// 
@@ -170,6 +179,7 @@ namespace gui0Xgame {
 			this->btn4->Size = System::Drawing::Size(75, 75);
 			this->btn4->TabIndex = 7;
 			this->btn4->UseVisualStyleBackColor = true;
+			this->btn4->Click += gcnew System::EventHandler(this, &MainWindow::btn4_Click);
 			// 
 			// btn9
 			// 
@@ -178,6 +188,7 @@ namespace gui0Xgame {
 			this->btn9->Size = System::Drawing::Size(75, 75);
 			this->btn9->TabIndex = 12;
 			this->btn9->UseVisualStyleBackColor = true;
+			this->btn9->Click += gcnew System::EventHandler(this, &MainWindow::btn9_Click);
 			// 
 			// btn8
 			// 
@@ -186,6 +197,7 @@ namespace gui0Xgame {
 			this->btn8->Size = System::Drawing::Size(75, 75);
 			this->btn8->TabIndex = 11;
 			this->btn8->UseVisualStyleBackColor = true;
+			this->btn8->Click += gcnew System::EventHandler(this, &MainWindow::btn8_Click);
 			// 
 			// btn7
 			// 
@@ -194,6 +206,7 @@ namespace gui0Xgame {
 			this->btn7->Size = System::Drawing::Size(75, 75);
 			this->btn7->TabIndex = 10;
 			this->btn7->UseVisualStyleBackColor = true;
+			this->btn7->Click += gcnew System::EventHandler(this, &MainWindow::btn7_Click);
 			// 
 			// lbl
 			// 
@@ -205,6 +218,7 @@ namespace gui0Xgame {
 			this->lbl->Name = L"lbl";
 			this->lbl->Size = System::Drawing::Size(230, 24);
 			this->lbl->TabIndex = 13;
+			this->lbl->Text = L"Az 1. játékos jön.";
 			this->lbl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// MainWindow
@@ -233,5 +247,93 @@ namespace gui0Xgame {
 
 		}
 #pragma endregion
-	};
+	private: void WhosRound() {
+		if (firstsRound) {
+			if (txb1->Text != "") {
+				lbl->Text = txb1->Text + " jön.";
+			}
+			else {
+				lbl->Text = "Az 1. játékos jön.";
+			}
+		}
+		else {
+			if (txb2->Text != "") {
+				lbl->Text = txb2->Text + " jön.";
+			}
+			else {
+				lbl->Text = "Az 2. játékos jön.";
+			}
+		}
+
+	}
+	private: System::Void txb1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		WhosRound();
+	}
+	private: System::Void txb2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		WhosRound();
+	}
+	private: System::Void btn1_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn1->Text == "") {
+			btn1->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn2_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn2->Text == "") {
+			btn2->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn3_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn3->Text == "") {
+			btn3->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn4_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn4->Text == "") {
+			btn4->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn5_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn5->Text == "") {
+			btn5->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn6_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn6->Text == "") {
+			btn6->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn7_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn7->Text == "") {
+			btn7->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn8_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn8->Text == "") {
+			btn8->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+	private: System::Void btn9_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btn9->Text == "") {
+			btn9->Text = (firstsRound) ? "0" : "X";
+			firstsRound = !firstsRound;
+			WhosRound();
+		}
+	}
+};
 }
