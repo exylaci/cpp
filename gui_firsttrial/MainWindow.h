@@ -130,6 +130,7 @@ namespace guifirsttrial {
 			this->button1->TabIndex = 5;
 			this->button1->Text = L"+";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MainWindow::button1_Click);
 			// 
 			// button2
 			// 
@@ -141,6 +142,7 @@ namespace guifirsttrial {
 			this->button2->TabIndex = 6;
 			this->button2->Text = L"-";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MainWindow::button2_Click);
 			// 
 			// button3
 			// 
@@ -152,6 +154,7 @@ namespace guifirsttrial {
 			this->button3->TabIndex = 7;
 			this->button3->Text = L"*";
 			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MainWindow::button3_Click);
 			// 
 			// button4
 			// 
@@ -163,6 +166,7 @@ namespace guifirsttrial {
 			this->button4->TabIndex = 8;
 			this->button4->Text = L":";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MainWindow::button4_Click);
 			// 
 			// MainWindow
 			// 
@@ -185,5 +189,17 @@ namespace guifirsttrial {
 
 		}
 #pragma endregion
-	};
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) + System::Convert::ToInt32(textBox2->Text));
+	}
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+	label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) - System::Convert::ToInt32(textBox2->Text));
+}
+private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) * System::Convert::ToInt32(textBox2->Text));
+}
+private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+	label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) / System::Convert::ToInt32(textBox2->Text));
+}
+};
 }
