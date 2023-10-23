@@ -44,6 +44,17 @@ namespace guifirsttrial {
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::Button^ button4;
+	private: System::Windows::Forms::RadioButton^ radioButton1;
+	private: System::Windows::Forms::RadioButton^ radioButton2;
+	private: System::Windows::Forms::RadioButton^ radioButton3;
+	private: System::Windows::Forms::Panel^ panel1;
+	private: System::Windows::Forms::RadioButton^ radioButton6;
+	private: System::Windows::Forms::RadioButton^ radioButton5;
+	private: System::Windows::Forms::RadioButton^ radioButton4;
+
+
+
+
 
 	private:
 		/// <summary>
@@ -67,6 +78,14 @@ namespace guifirsttrial {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->radioButton6 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton5 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
+			this->panel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// textBox1
@@ -168,11 +187,91 @@ namespace guifirsttrial {
 			this->button4->UseVisualStyleBackColor = true;
 			this->button4->Click += gcnew System::EventHandler(this, &MainWindow::button4_Click);
 			// 
+			// radioButton1
+			// 
+			this->radioButton1->AutoSize = true;
+			this->radioButton1->Location = System::Drawing::Point(44, 160);
+			this->radioButton1->Name = L"radioButton1";
+			this->radioButton1->Size = System::Drawing::Size(85, 17);
+			this->radioButton1->TabIndex = 9;
+			this->radioButton1->TabStop = true;
+			this->radioButton1->Text = L"radioButton1";
+			this->radioButton1->UseVisualStyleBackColor = true;
+			// 
+			// radioButton2
+			// 
+			this->radioButton2->AutoSize = true;
+			this->radioButton2->Location = System::Drawing::Point(44, 183);
+			this->radioButton2->Name = L"radioButton2";
+			this->radioButton2->Size = System::Drawing::Size(85, 17);
+			this->radioButton2->TabIndex = 10;
+			this->radioButton2->TabStop = true;
+			this->radioButton2->Text = L"radioButton2";
+			this->radioButton2->UseVisualStyleBackColor = true;
+			// 
+			// radioButton3
+			// 
+			this->radioButton3->AutoSize = true;
+			this->radioButton3->Location = System::Drawing::Point(44, 206);
+			this->radioButton3->Name = L"radioButton3";
+			this->radioButton3->Size = System::Drawing::Size(85, 17);
+			this->radioButton3->TabIndex = 11;
+			this->radioButton3->TabStop = true;
+			this->radioButton3->Text = L"radioButton3";
+			this->radioButton3->UseVisualStyleBackColor = true;
+			// 
+			// panel1
+			// 
+			this->panel1->Controls->Add(this->radioButton6);
+			this->panel1->Controls->Add(this->radioButton5);
+			this->panel1->Controls->Add(this->radioButton4);
+			this->panel1->Location = System::Drawing::Point(168, 149);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(117, 87);
+			this->panel1->TabIndex = 12;
+			// 
+			// radioButton6
+			// 
+			this->radioButton6->AutoSize = true;
+			this->radioButton6->Location = System::Drawing::Point(15, 57);
+			this->radioButton6->Name = L"radioButton6";
+			this->radioButton6->Size = System::Drawing::Size(85, 17);
+			this->radioButton6->TabIndex = 2;
+			this->radioButton6->TabStop = true;
+			this->radioButton6->Text = L"radioButton6";
+			this->radioButton6->UseVisualStyleBackColor = true;
+			// 
+			// radioButton5
+			// 
+			this->radioButton5->AutoSize = true;
+			this->radioButton5->Location = System::Drawing::Point(15, 34);
+			this->radioButton5->Name = L"radioButton5";
+			this->radioButton5->Size = System::Drawing::Size(85, 17);
+			this->radioButton5->TabIndex = 1;
+			this->radioButton5->TabStop = true;
+			this->radioButton5->Text = L"radioButton5";
+			this->radioButton5->UseVisualStyleBackColor = true;
+			// 
+			// radioButton4
+			// 
+			this->radioButton4->AutoSize = true;
+			this->radioButton4->Location = System::Drawing::Point(15, 11);
+			this->radioButton4->Name = L"radioButton4";
+			this->radioButton4->Size = System::Drawing::Size(85, 17);
+			this->radioButton4->TabIndex = 0;
+			this->radioButton4->TabStop = true;
+			this->radioButton4->Text = L"radioButton4";
+			this->radioButton4->UseVisualStyleBackColor = true;
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(574, 135);
+			this->ClientSize = System::Drawing::Size(574, 323);
+			this->Controls->Add(this->panel1);
+			this->Controls->Add(this->radioButton3);
+			this->Controls->Add(this->radioButton2);
+			this->Controls->Add(this->radioButton1);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
@@ -184,12 +283,14 @@ namespace guifirsttrial {
 			this->Controls->Add(this->textBox1);
 			this->Name = L"MainWindow";
 			this->Text = L"MainWindow";
+			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) + System::Convert::ToInt32(textBox2->Text));
 	}
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -199,7 +300,7 @@ private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e
 	label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) * System::Convert::ToInt32(textBox2->Text));
 }
 private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
-	label3->Text = System::Convert::ToString(System::Convert::ToInt32(textBox1->Text) / System::Convert::ToInt32(textBox2->Text));
+	label3->Text = System::Convert::ToString(System::Convert::ToDouble(textBox1->Text) / System::Convert::ToDouble(textBox2->Text));
 }
 };
 }
