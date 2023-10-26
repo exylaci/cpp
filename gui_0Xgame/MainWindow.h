@@ -96,7 +96,7 @@ namespace gui0Xgame {
 			this->txb1->Name = L"txb1";
 			this->txb1->Size = System::Drawing::Size(100, 20);
 			this->txb1->TabIndex = 1;
-			this->txb1->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb1_TextChanged);
+			this->txb1->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb_TextChanged);
 			// 
 			// label2
 			// 
@@ -113,7 +113,7 @@ namespace gui0Xgame {
 			this->txb2->Name = L"txb2";
 			this->txb2->Size = System::Drawing::Size(100, 20);
 			this->txb2->TabIndex = 3;
-			this->txb2->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb2_TextChanged);
+			this->txb2->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb_TextChanged);
 			// 
 			// btn1
 			// 
@@ -274,10 +274,7 @@ namespace gui0Xgame {
 		}
 
 	}
-	private: System::Void txb1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-		WhosRound();
-	}
-	private: System::Void txb2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void txb_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		WhosRound();
 	}
 	private: System::Void btn_Click(System::Object^ sender, System::EventArgs^ e) {
