@@ -269,10 +269,25 @@ namespace gui0Xgame {
 				lbl->Text = txb2->Text + " jön.";
 			}
 			else {
-				lbl->Text = "Az 2. játékos jön.";
+				lbl->Text = "A 2. játékos jön.";
 			}
 		}
 
+	}
+	private: int Checking() {
+		for (int i{ 0 }; i < 3; ++i) {
+			if (cells[i * 3] != 0 && cells[i * 3] == cells[1 + i * 3] && cells[i * 3] == cells[2 + i * 3]) {
+				return cells[i * 3];
+			}
+			if (cells[i] != 0 && cells[i] == cells[3 + i] && cells[i] == cells[6 + i]) {
+				return cells[i];
+			}
+		}
+		if ((cells[4] != 0 && cells[4] == cells[0] && cells[4] == cells[8]) ||
+			(cells[4] != 0 && cells[4] == cells[2] && cells[4] == cells[6])) {
+			return cells[4];
+		}
+		return 0;
 	}
 	private: System::Void txb_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		WhosRound();
@@ -282,9 +297,32 @@ namespace gui0Xgame {
 		if (btn->Text == "") {
 			btn->Text = (firstsRound) ? "0" : "X";
 			btn->ForeColor = (firstsRound) ? System::Drawing::Color::Red : System::Drawing::Color::Black;
-			firstsRound = !firstsRound;
-			WhosRound();
+			cells[System::Convert::ToInt32(btn->Name->Substring(3, 1)) - 1] =
+				firstsRound ? 1 : 2;
+			int resoult{ Checking() };
+			if (resoult != 0) {
+				if (resoult == 1) {
+					if (txb1->Text != "") {
+						lbl->Text = txb1->Text + " nyert!";
+					}
+					else {
+						lbl->Text = "Az 1. játékos nyert.";
+					}
+				}
+				else {
+					if (txb2->Text != "") {
+						lbl->Text = txb2->Text + " nyert!";
+					}
+					else {
+						lbl->Text = "A 2. játékos nyert!";
+					}
+				}
+			}
+			else {
+				firstsRound = !firstsRound;
+				WhosRound();
+			}
 		}
 	}
-};
+	};
 }
