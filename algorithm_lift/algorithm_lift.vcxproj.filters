@@ -14,4 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="lift0.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift1.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift2.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift3.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift4.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift5.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lift6.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
