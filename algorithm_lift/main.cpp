@@ -20,6 +20,8 @@ int main() {
 			continue;
 		}
 
+		auto startTime = std::chrono::system_clock::now();
+
 		long crowd;
 		int maxPerson;
 		int maxWeight;
@@ -83,5 +85,8 @@ int main() {
 			i = people[0];
 		}
 		cout << " " << variations << endl;
+
+		cout << "  duration: " <<
+			std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << endl;
 	}
 }
