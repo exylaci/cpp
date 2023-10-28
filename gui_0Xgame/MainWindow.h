@@ -51,6 +51,10 @@ namespace gui0Xgame {
 	private: System::Windows::Forms::Button^ btn7;
 	private: System::Windows::Forms::Button^ btn9;
 	private: System::Windows::Forms::Label^ lbl;
+	private: System::Windows::Forms::Button^ btn_newGame;
+
+
+
 
 	private:
 		/// <summary>
@@ -79,12 +83,13 @@ namespace gui0Xgame {
 			this->btn8 = (gcnew System::Windows::Forms::Button());
 			this->btn9 = (gcnew System::Windows::Forms::Button());
 			this->lbl = (gcnew System::Windows::Forms::Label());
+			this->btn_newGame = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(15, 19);
+			this->label1->Location = System::Drawing::Point(15, 7);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(56, 13);
 			this->label1->TabIndex = 0;
@@ -92,7 +97,7 @@ namespace gui0Xgame {
 			// 
 			// txb1
 			// 
-			this->txb1->Location = System::Drawing::Point(12, 35);
+			this->txb1->Location = System::Drawing::Point(12, 23);
 			this->txb1->Name = L"txb1";
 			this->txb1->Size = System::Drawing::Size(100, 20);
 			this->txb1->TabIndex = 1;
@@ -101,7 +106,7 @@ namespace gui0Xgame {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(152, 19);
+			this->label2->Location = System::Drawing::Point(152, 7);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(56, 13);
 			this->label2->TabIndex = 2;
@@ -109,7 +114,7 @@ namespace gui0Xgame {
 			// 
 			// txb2
 			// 
-			this->txb2->Location = System::Drawing::Point(149, 35);
+			this->txb2->Location = System::Drawing::Point(149, 23);
 			this->txb2->Name = L"txb2";
 			this->txb2->Size = System::Drawing::Size(100, 20);
 			this->txb2->TabIndex = 3;
@@ -120,7 +125,7 @@ namespace gui0Xgame {
 			this->btn1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btn1->ForeColor = System::Drawing::Color::Red;
-			this->btn1->Location = System::Drawing::Point(12, 74);
+			this->btn1->Location = System::Drawing::Point(12, 62);
 			this->btn1->Name = L"btn1";
 			this->btn1->Size = System::Drawing::Size(75, 75);
 			this->btn1->TabIndex = 4;
@@ -132,7 +137,7 @@ namespace gui0Xgame {
 			this->btn2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btn2->ForeColor = System::Drawing::Color::Black;
-			this->btn2->Location = System::Drawing::Point(93, 74);
+			this->btn2->Location = System::Drawing::Point(93, 62);
 			this->btn2->Name = L"btn2";
 			this->btn2->Size = System::Drawing::Size(75, 75);
 			this->btn2->TabIndex = 5;
@@ -143,7 +148,7 @@ namespace gui0Xgame {
 			// 
 			this->btn3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn3->Location = System::Drawing::Point(174, 74);
+			this->btn3->Location = System::Drawing::Point(174, 62);
 			this->btn3->Name = L"btn3";
 			this->btn3->Size = System::Drawing::Size(75, 75);
 			this->btn3->TabIndex = 6;
@@ -154,7 +159,7 @@ namespace gui0Xgame {
 			// 
 			this->btn4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn4->Location = System::Drawing::Point(12, 155);
+			this->btn4->Location = System::Drawing::Point(12, 143);
 			this->btn4->Name = L"btn4";
 			this->btn4->Size = System::Drawing::Size(75, 75);
 			this->btn4->TabIndex = 7;
@@ -165,7 +170,7 @@ namespace gui0Xgame {
 			// 
 			this->btn5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn5->Location = System::Drawing::Point(93, 155);
+			this->btn5->Location = System::Drawing::Point(93, 143);
 			this->btn5->Name = L"btn5";
 			this->btn5->Size = System::Drawing::Size(75, 75);
 			this->btn5->TabIndex = 8;
@@ -176,7 +181,7 @@ namespace gui0Xgame {
 			// 
 			this->btn6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn6->Location = System::Drawing::Point(174, 155);
+			this->btn6->Location = System::Drawing::Point(174, 143);
 			this->btn6->Name = L"btn6";
 			this->btn6->Size = System::Drawing::Size(75, 75);
 			this->btn6->TabIndex = 9;
@@ -187,7 +192,7 @@ namespace gui0Xgame {
 			// 
 			this->btn7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn7->Location = System::Drawing::Point(12, 236);
+			this->btn7->Location = System::Drawing::Point(12, 224);
 			this->btn7->Name = L"btn7";
 			this->btn7->Size = System::Drawing::Size(75, 75);
 			this->btn7->TabIndex = 10;
@@ -198,7 +203,7 @@ namespace gui0Xgame {
 			// 
 			this->btn8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn8->Location = System::Drawing::Point(93, 236);
+			this->btn8->Location = System::Drawing::Point(93, 224);
 			this->btn8->Name = L"btn8";
 			this->btn8->Size = System::Drawing::Size(75, 75);
 			this->btn8->TabIndex = 11;
@@ -209,7 +214,7 @@ namespace gui0Xgame {
 			// 
 			this->btn9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn9->Location = System::Drawing::Point(174, 236);
+			this->btn9->Location = System::Drawing::Point(174, 224);
 			this->btn9->Name = L"btn9";
 			this->btn9->Size = System::Drawing::Size(75, 75);
 			this->btn9->TabIndex = 12;
@@ -221,7 +226,7 @@ namespace gui0Xgame {
 			this->lbl->AutoSize = true;
 			this->lbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->lbl->Location = System::Drawing::Point(15, 324);
+			this->lbl->Location = System::Drawing::Point(15, 312);
 			this->lbl->MinimumSize = System::Drawing::Size(230, 20);
 			this->lbl->Name = L"lbl";
 			this->lbl->Size = System::Drawing::Size(230, 24);
@@ -229,11 +234,26 @@ namespace gui0Xgame {
 			this->lbl->Text = L"Az 1. játékos jön.";
 			this->lbl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
+			// btn_newGame
+			// 
+			this->btn_newGame->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->btn_newGame->ForeColor = System::Drawing::Color::Coral;
+			this->btn_newGame->Location = System::Drawing::Point(12, 340);
+			this->btn_newGame->Name = L"btn_newGame";
+			this->btn_newGame->Size = System::Drawing::Size(237, 40);
+			this->btn_newGame->TabIndex = 14;
+			this->btn_newGame->Text = L"Új játék";
+			this->btn_newGame->UseVisualStyleBackColor = true;
+			this->btn_newGame->Visible = false;
+			this->btn_newGame->Click += gcnew System::EventHandler(this, &MainWindow::btn_newGame_Click);
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(263, 356);
+			this->ClientSize = System::Drawing::Size(263, 391);
+			this->Controls->Add(this->btn_newGame);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->txb1);
 			this->Controls->Add(this->label2);
@@ -287,7 +307,46 @@ namespace gui0Xgame {
 			(cells[4] != 0 && cells[4] == cells[2] && cells[4] == cells[6])) {
 			return cells[4];
 		}
-		return 0;
+		for (int i = 0; i < 9; ++i) {
+			if (cells[i] == 0) {
+				return 0;
+			}
+		}
+		return 3;
+	}
+	private: void setButtonsEnabled(bool toWhat) {
+		btn1->Enabled = toWhat;
+		btn2->Enabled = toWhat;
+		btn3->Enabled = toWhat;
+		btn4->Enabled = toWhat;
+		btn5->Enabled = toWhat;
+		btn6->Enabled = toWhat;
+		btn7->Enabled = toWhat;
+		btn8->Enabled = toWhat;
+		btn9->Enabled = toWhat;
+	}
+	private: void win(int who) {
+		switch (who) {
+		case 1: {			if (txb1->Text != "") {
+			lbl->Text = txb1->Text + " nyert!";
+		}
+			  else {
+			lbl->Text = "Az 1. játékos nyert.";
+		}
+			  break; }
+		case 2: {			if (txb2->Text != "") {
+			lbl->Text = txb2->Text + " nyert!";
+		}
+			  else {
+			lbl->Text = "A 2. játékos nyert!";
+		}
+			  break; }
+		default:
+			lbl->Text = "Döntetlen.";
+
+		}
+		setButtonsEnabled(false);
+		btn_newGame->Visible = true;
 	}
 	private: System::Void txb_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		WhosRound();
@@ -301,28 +360,31 @@ namespace gui0Xgame {
 				firstsRound ? 1 : 2;
 			int resoult{ Checking() };
 			if (resoult != 0) {
-				if (resoult == 1) {
-					if (txb1->Text != "") {
-						lbl->Text = txb1->Text + " nyert!";
-					}
-					else {
-						lbl->Text = "Az 1. játékos nyert.";
-					}
-				}
-				else {
-					if (txb2->Text != "") {
-						lbl->Text = txb2->Text + " nyert!";
-					}
-					else {
-						lbl->Text = "A 2. játékos nyert!";
-					}
-				}
+				win(resoult);
 			}
 			else {
 				firstsRound = !firstsRound;
 				WhosRound();
 			}
 		}
+	}
+	private: System::Void btn_newGame_Click(System::Object^ sender, System::EventArgs^ e) {
+		btn1->Text = "";
+		btn2->Text = "";
+		btn3->Text = "";
+		btn4->Text = "";
+		btn5->Text = "";
+		btn6->Text = "";
+		btn7->Text = "";
+		btn8->Text = "";
+		btn9->Text = "";
+		setButtonsEnabled(true);
+		for (int i = 1; i < 9; ++i) {
+			cells[i] = 0;
+		}
+		btn_newGame->Visible = false;
+		firstsRound = !firstsRound;
+		WhosRound();
 	}
 	};
 }
