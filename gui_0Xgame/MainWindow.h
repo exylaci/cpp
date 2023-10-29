@@ -275,6 +275,40 @@ namespace gui0Xgame {
 
 		}
 #pragma endregion
+	private: Button^ getButton(int order) {
+		switch (order) {
+		case 1:
+			return btn1;
+		case 2:
+			return btn2;
+		case 3:
+			return btn3;
+		case 4:
+			return btn4;
+		case 5:
+			return btn5;
+		case 6:
+			return btn6;
+		case 7:
+			return btn7;
+		case 8:
+			return btn8;
+		case 9:
+			return btn9;
+		}
+	}
+	private: void setButtonsDisabled() {
+		for (int i{ 1 }; i < 10; ++i) {
+			Button^ btn = getButton(i);
+			btn->Enabled = false;
+		}
+	}
+	private: void storeOneStep(Button^ btn) {
+		btn->Text = (firstsRound) ? "0" : "X";
+		btn->ForeColor = (firstsRound) ? System::Drawing::Color::Red : System::Drawing::Color::Black;
+		cells[System::Convert::ToInt32(btn->Name->Substring(3, 1)) - 1] =
+			firstsRound ? 1 : 2;
+	}
 	private: void WhosRound() {
 		if (firstsRound) {
 			if (txb1->Text != "") {
@@ -314,17 +348,6 @@ namespace gui0Xgame {
 		}
 		return 3;
 	}
-	private: void setButtonsEnabled(bool toWhat) {
-		btn1->Enabled = toWhat;
-		btn2->Enabled = toWhat;
-		btn3->Enabled = toWhat;
-		btn4->Enabled = toWhat;
-		btn5->Enabled = toWhat;
-		btn6->Enabled = toWhat;
-		btn7->Enabled = toWhat;
-		btn8->Enabled = toWhat;
-		btn9->Enabled = toWhat;
-	}
 	private: void win(int who) {
 		switch (who) {
 		case 1: {			if (txb1->Text != "") {
@@ -345,7 +368,7 @@ namespace gui0Xgame {
 			lbl->Text = "Döntetlen.";
 
 		}
-		setButtonsEnabled(false);
+		setButtonsDisabled();
 		btn_newGame->Visible = true;
 	}
 	private: System::Void txb_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -354,10 +377,7 @@ namespace gui0Xgame {
 	private: System::Void btn_Click(System::Object^ sender, System::EventArgs^ e) {
 		auto btn = ((Button^)sender);
 		if (btn->Text == "") {
-			btn->Text = (firstsRound) ? "0" : "X";
-			btn->ForeColor = (firstsRound) ? System::Drawing::Color::Red : System::Drawing::Color::Black;
-			cells[System::Convert::ToInt32(btn->Name->Substring(3, 1)) - 1] =
-				firstsRound ? 1 : 2;
+			storeOneStep(btn);
 			int resoult{ Checking() };
 			if (resoult != 0) {
 				win(resoult);
@@ -369,18 +389,11 @@ namespace gui0Xgame {
 		}
 	}
 	private: System::Void btn_newGame_Click(System::Object^ sender, System::EventArgs^ e) {
-		btn1->Text = "";
-		btn2->Text = "";
-		btn3->Text = "";
-		btn4->Text = "";
-		btn5->Text = "";
-		btn6->Text = "";
-		btn7->Text = "";
-		btn8->Text = "";
-		btn9->Text = "";
-		setButtonsEnabled(true);
-		for (int i = 1; i < 9; ++i) {
+		for (int i = 0; i < 9; ++i) {
 			cells[i] = 0;
+			Button^ btn{ getButton(i + 1) };
+			btn->Enabled = true;
+			btn->Text = "";
 		}
 		btn_newGame->Visible = false;
 		firstsRound = !firstsRound;
