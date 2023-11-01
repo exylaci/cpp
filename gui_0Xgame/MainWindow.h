@@ -309,6 +309,151 @@ namespace gui0Xgame {
 		cells[System::Convert::ToInt32(btn->Name->Substring(3, 1)) - 1] =
 			firstsRound ? 1 : 2;
 	}
+	private: bool isEmpty() {
+		for (int i{ 0 }; i < 9; ++i) {
+			if (cells[i] != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	private: int isDouble(int what) {
+		for (int i{ 0 }; i < 3; ++i) {
+			if (cells[i] == what && cells[3 + i] == what && cells[6 + i] == 0) {
+				return 6 + i;
+			}
+			if (cells[i] == what && cells[3 + i] == 0 && cells[6 + i] == what) {
+				return 3 + i;
+			}
+			if (cells[i] == 0 && cells[3 + i] == what && cells[6 + i] == what) {
+				return  i;
+			}
+			if (cells[i * 3] == what && cells[1 + i * 3] == what && cells[2 + i * 3] == 0) {
+				return 2 + i * 3;
+			}
+			if (cells[i * 3] == what && cells[1 + i * 3] == 0 && cells[2 + i * 3] == what) {
+				return 1 + i * 3;
+			}
+			if (cells[i * 3] == 0 && cells[1 + i * 3] == what && cells[2 + i * 3] == what) {
+				return i * 3;
+			}
+		}
+		if (cells[0] == what && cells[4] == what && cells[8] == 0) {
+			return 8;
+		}
+		if (cells[0] == what && cells[4] == 0 && cells[8] == what) {
+			return 4;
+		}
+		if (cells[0] == 0 && cells[4] == what && cells[8] == what) {
+			return 0;
+		}
+		if (cells[2] == what && cells[4] == what && cells[6] == 0) {
+			return 6;
+		}
+		if (cells[2] == what && cells[4] == 0 && cells[6] == what) {
+			return 4;
+		}
+		if (cells[2] == 0 && cells[4] == what && cells[6] == what) {
+			return 2;
+		}
+		return -1;
+	}
+	private: int isInCorner(int what) {
+		if (cells[0] == what && cells[1] == 0 && cells[3] == 0) {
+			return 1;
+		}
+		if (cells[2] == what && cells[1] == 0 && cells[5] == 0) {
+			return 1;
+		}
+		if (cells[6] == what && cells[7] == 0 && cells[3] == 0) {
+			return 7;
+		}
+		if (cells[8] == what && cells[7] == 0 && cells[5] == 0) {
+			return 7;
+		}
+		return -1;
+	}
+	private: int isOnSide(int what) {
+		if (cells[1] == what && cells[0] == 0 && cells[2] == 0) {
+			return 0;
+		}
+		if (cells[3] == what && cells[0] == 0 && cells[6] == 0) {
+			return 0;
+		}
+		if (cells[5] == what && cells[2] == 0 && cells[8] == 0) {
+			return 8;
+		}
+		if (cells[7] == what && cells[6] == 0 && cells[8] == 0) {
+			return 8;
+		}
+		return -1;
+	}
+	private: int toCorner() {
+		if (cells[0] == 0) {
+			return 0;
+		}
+		if (cells[2] == 0) {
+			return 2;
+		}
+		if (cells[6] == 0) {
+			return 6;
+		}
+		if (cells[8] == 0) {
+			return 8;
+		}
+	}
+	private: void computersStep() {
+		int what{ firstsRound ? 1 : 2 };
+		if (isEmpty()) {
+			storeOneStep(getButton(5));
+			return;
+		}
+		int where{ isDouble(what) };
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		where = isDouble(3 - what);
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		if (cells[4] == 0) {
+			storeOneStep(getButton(5));
+			return;
+		}
+		where = isInCorner(3 - what);
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		where = isOnSide(3 - what);
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		where = isInCorner(what);
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		where = isOnSide(what);
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		where = toCorner();
+		if (where >= 0) {
+			storeOneStep(getButton(where + 1));
+			return;
+		}
+		for (int i{ 0 }; i < 9; ++i) {
+			if (cells[i] == 0) {
+				storeOneStep(getButton(i + 1));
+				return;
+			}
+		}
+	}
 	private: void WhosRound() {
 		if (firstsRound) {
 			if (txb1->Text != "") {
@@ -326,7 +471,6 @@ namespace gui0Xgame {
 				lbl->Text = "A 2. játékos jön.";
 			}
 		}
-
 	}
 	private: int Checking() {
 		for (int i{ 0 }; i < 3; ++i) {
@@ -350,20 +494,22 @@ namespace gui0Xgame {
 	}
 	private: void win(int who) {
 		switch (who) {
-		case 1: {			if (txb1->Text != "") {
-			lbl->Text = txb1->Text + " nyert!";
-		}
-			  else {
-			lbl->Text = "Az 1. játékos nyert.";
-		}
-			  break; }
-		case 2: {			if (txb2->Text != "") {
-			lbl->Text = txb2->Text + " nyert!";
-		}
-			  else {
-			lbl->Text = "A 2. játékos nyert!";
-		}
-			  break; }
+		case 1: {
+			if (txb1->Text != "") {
+				lbl->Text = txb1->Text + " nyert!";
+			}
+			else {
+				lbl->Text = "Az 1. játékos nyert.";
+			}
+			break; }
+		case 2: {
+			if (txb2->Text != "") {
+				lbl->Text = txb2->Text + " nyert!";
+			}
+			else {
+				lbl->Text = "A 2. játékos nyert!";
+			}
+			break; }
 		default:
 			lbl->Text = "Döntetlen.";
 
@@ -371,8 +517,30 @@ namespace gui0Xgame {
 		setButtonsDisabled();
 		btn_newGame->Visible = true;
 	}
+	private: void Rounds() {
+		do {
+			if (firstsRound) {
+				if (txb1->Text != "Computer") {
+					break;
+				}
+			}
+			else
+				if (txb2->Text != "Computer") {
+					break;
+				}
+			computersStep();
+			int resoult{ Checking() };
+			if (resoult != 0) {
+				win(resoult);
+				break;
+			}
+			firstsRound = !firstsRound;
+			WhosRound();
+		} while (true);
+	}
 	private: System::Void txb_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		WhosRound();
+		Rounds();
 	}
 	private: System::Void btn_Click(System::Object^ sender, System::EventArgs^ e) {
 		auto btn = ((Button^)sender);
@@ -387,6 +555,7 @@ namespace gui0Xgame {
 				WhosRound();
 			}
 		}
+		Rounds();
 	}
 	private: System::Void btn_newGame_Click(System::Object^ sender, System::EventArgs^ e) {
 		for (int i = 0; i < 9; ++i) {
@@ -398,6 +567,7 @@ namespace gui0Xgame {
 		btn_newGame->Visible = false;
 		firstsRound = !firstsRound;
 		WhosRound();
+		Rounds();
 	}
 	};
 }
