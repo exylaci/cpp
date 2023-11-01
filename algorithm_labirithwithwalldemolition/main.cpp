@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
+#include <iomanip>
 //#include "wall_demolish_testinputs.cpp.inc"
 #include "wall_demolish_inputs.cpp.inc"
 
@@ -117,30 +119,52 @@ int findPathWithBruteForce(TestCase one, int cost) {
 	}
 	labirinth[0][0] = 0;
 	int round = 0;
+	bool modified;
 	do {
+		modified = false;
 		for (int x = 0; x < one.cols; ++x) {
 			for (int y = 0; y < one.rows; ++y) {
 				if (x > 0) {
-					labirinth[x][y] = std::min(labirinth[x][y], labirinth[x - 1][y] + 2 + cost * one.field.at(y).at(x));
+					if (labirinth[x][y] > labirinth[x - 1][y] + 2 + cost * one.field.at(y).at(x)) {
+						labirinth[x][y] = labirinth[x - 1][y] + 2 + cost * one.field.at(y).at(x);
+						modified = true;
+					}
 				}
 				if (y > 0) {
-					labirinth[x][y] = std::min(labirinth[x][y], labirinth[x][y - 1] + 2 + cost * one.field.at(y).at(x));
+					if (labirinth[x][y] > labirinth[x][y - 1] + 2 + cost * one.field.at(y).at(x)) {
+						labirinth[x][y] = labirinth[x][y - 1] + 2 + cost * one.field.at(y).at(x);
+						modified = true;
+					}
 				}
 				if (x < one.cols - 1) {
-					labirinth[x][y] = std::min(labirinth[x][y], labirinth[x + 1][y] + 2 + cost * one.field.at(y).at(x));
+					if (labirinth[x][y] > labirinth[x + 1][y] + 2 + cost * one.field.at(y).at(x)) {
+						labirinth[x][y] = labirinth[x + 1][y] + 2 + cost * one.field.at(y).at(x);
+						modified = true;
+					}
 				}
 				if (y < one.rows - 1) {
-					labirinth[x][y] = std::min(labirinth[x][y], labirinth[x][y + 1] + 2 + cost * one.field.at(y).at(x));
+					if (labirinth[x][y] > labirinth[x][y + 1] + 2 + cost * one.field.at(y).at(x)) {
+						labirinth[x][y] = labirinth[x][y + 1] + 2 + cost * one.field.at(y).at(x);
+						modified = true;
+					}
 				}
 			}
 		}
 		++round;
-	} while (round < 1000);
+	} while (modified);
 	return labirinth[one.cols - 1][one.rows - 1];
 }
 
 // full copy of the test case so it can be modified locally
-int task1(TestCase test_case) {
+int task1b(TestCase test_case) {
+	// TODO: Task 1 code here
+	int routeLength{ findPathWithBruteForce(test_case,10001) };
+	if (routeLength > 10000) {
+		return -1;
+	}
+	return routeLength / 2;
+}
+int task1f(TestCase test_case) {
 	// TODO: Task 1 code here
 	int routeLength{ findPathStepToward(test_case,10001) };
 	if (routeLength > 10000) {
@@ -149,7 +173,18 @@ int task1(TestCase test_case) {
 	return routeLength / 2;
 }
 
-int task2(TestCase test_case) {
+int task2b(TestCase test_case) {
+	// TODO: Task 2 code here
+	int routeLength{ findPathWithBruteForce(test_case,10001) };
+	if (routeLength < 10000) {
+		return routeLength / 2;
+	}
+	if (routeLength < 20000) {
+		return (routeLength - 10001) / 2;
+	}
+	return -1;
+}
+int task2f(TestCase test_case) {
 	// TODO: Task 2 code here
 	int routeLength{ findPathStepToward(test_case,10001) };
 	if (routeLength < 10000) {
@@ -161,7 +196,12 @@ int task2(TestCase test_case) {
 	return -1;
 }
 
-int task3(TestCase test_case) {
+int task3b(TestCase test_case) {
+	// TODO: Task 3 code here
+	int routeLength{ findPathWithBruteForce(test_case,1) };
+	return routeLength;
+}
+int task3f(TestCase test_case) {
 	// TODO: Task 3 code here
 	int routeLength{ findPathStepToward(test_case,1) };
 	return routeLength;
@@ -171,17 +211,43 @@ int main()
 {
 	std::cout << "Solution for Task 1:" << std::endl;
 	for (TestCase& test_case : test_cases) {
-		std::cout << task1(test_case) << " ";
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task1b(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
+	for (TestCase& test_case : test_cases) {
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task1f(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+	}
+	std::cout << std::endl;
+
 	std::cout << "Solution for Task 2:" << std::endl;
 	for (TestCase& test_case : test_cases) {
-		std::cout << task2(test_case) << " ";
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task2b(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
+	for (TestCase& test_case : test_cases) {
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task2f(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+	}
+	std::cout << std::endl;
+
 	std::cout << "Solution for Task 3:" << std::endl;
 	for (TestCase& test_case : test_cases) {
-		std::cout << task3(test_case) << " ";
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task3b(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+	}
+	std::cout << std::endl;
+	for (TestCase& test_case : test_cases) {
+		auto startTime = std::chrono::system_clock::now();
+		std::cout << task3f(test_case) << " ";
+		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 	return 0;
