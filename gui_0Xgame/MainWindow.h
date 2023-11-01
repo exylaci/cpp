@@ -1,7 +1,11 @@
+#include <string>
+#include <msclr\marshal_cppstd.h>
 #pragma once
 
 bool firstsRound{ true };
 int cells[9]{ 0 };
+std::string firstName{ "" };
+std::string secondName{ "" };
 
 namespace gui0Xgame {
 
@@ -52,6 +56,9 @@ namespace gui0Xgame {
 	private: System::Windows::Forms::Button^ btn9;
 	private: System::Windows::Forms::Label^ lbl;
 	private: System::Windows::Forms::Button^ btn_newGame;
+	private: System::Windows::Forms::CheckBox^ chk1;
+	private: System::Windows::Forms::CheckBox^ chk2;
+
 
 
 
@@ -84,39 +91,49 @@ namespace gui0Xgame {
 			this->btn9 = (gcnew System::Windows::Forms::Button());
 			this->lbl = (gcnew System::Windows::Forms::Label());
 			this->btn_newGame = (gcnew System::Windows::Forms::Button());
+			this->chk1 = (gcnew System::Windows::Forms::CheckBox());
+			this->chk2 = (gcnew System::Windows::Forms::CheckBox());
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->label1->Location = System::Drawing::Point(15, 7);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(56, 13);
+			this->label1->Size = System::Drawing::Size(67, 16);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"1. játékos:";
 			// 
 			// txb1
 			// 
-			this->txb1->Location = System::Drawing::Point(12, 23);
+			this->txb1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->txb1->Location = System::Drawing::Point(12, 26);
 			this->txb1->Name = L"txb1";
-			this->txb1->Size = System::Drawing::Size(100, 20);
+			this->txb1->Size = System::Drawing::Size(100, 22);
 			this->txb1->TabIndex = 1;
 			this->txb1->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb_TextChanged);
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->label2->Location = System::Drawing::Point(152, 7);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(56, 13);
+			this->label2->Size = System::Drawing::Size(67, 16);
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"2. játékos:";
 			// 
 			// txb2
 			// 
-			this->txb2->Location = System::Drawing::Point(149, 23);
+			this->txb2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->txb2->Location = System::Drawing::Point(149, 26);
 			this->txb2->Name = L"txb2";
-			this->txb2->Size = System::Drawing::Size(100, 20);
+			this->txb2->Size = System::Drawing::Size(100, 22);
 			this->txb2->TabIndex = 3;
 			this->txb2->TextChanged += gcnew System::EventHandler(this, &MainWindow::txb_TextChanged);
 			// 
@@ -125,7 +142,7 @@ namespace gui0Xgame {
 			this->btn1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btn1->ForeColor = System::Drawing::Color::Red;
-			this->btn1->Location = System::Drawing::Point(12, 62);
+			this->btn1->Location = System::Drawing::Point(12, 75);
 			this->btn1->Name = L"btn1";
 			this->btn1->Size = System::Drawing::Size(75, 75);
 			this->btn1->TabIndex = 4;
@@ -137,7 +154,7 @@ namespace gui0Xgame {
 			this->btn2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btn2->ForeColor = System::Drawing::Color::Black;
-			this->btn2->Location = System::Drawing::Point(93, 62);
+			this->btn2->Location = System::Drawing::Point(93, 75);
 			this->btn2->Name = L"btn2";
 			this->btn2->Size = System::Drawing::Size(75, 75);
 			this->btn2->TabIndex = 5;
@@ -148,7 +165,7 @@ namespace gui0Xgame {
 			// 
 			this->btn3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn3->Location = System::Drawing::Point(174, 62);
+			this->btn3->Location = System::Drawing::Point(174, 75);
 			this->btn3->Name = L"btn3";
 			this->btn3->Size = System::Drawing::Size(75, 75);
 			this->btn3->TabIndex = 6;
@@ -159,7 +176,7 @@ namespace gui0Xgame {
 			// 
 			this->btn4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn4->Location = System::Drawing::Point(12, 143);
+			this->btn4->Location = System::Drawing::Point(12, 156);
 			this->btn4->Name = L"btn4";
 			this->btn4->Size = System::Drawing::Size(75, 75);
 			this->btn4->TabIndex = 7;
@@ -170,7 +187,7 @@ namespace gui0Xgame {
 			// 
 			this->btn5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn5->Location = System::Drawing::Point(93, 143);
+			this->btn5->Location = System::Drawing::Point(93, 156);
 			this->btn5->Name = L"btn5";
 			this->btn5->Size = System::Drawing::Size(75, 75);
 			this->btn5->TabIndex = 8;
@@ -181,7 +198,7 @@ namespace gui0Xgame {
 			// 
 			this->btn6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn6->Location = System::Drawing::Point(174, 143);
+			this->btn6->Location = System::Drawing::Point(174, 156);
 			this->btn6->Name = L"btn6";
 			this->btn6->Size = System::Drawing::Size(75, 75);
 			this->btn6->TabIndex = 9;
@@ -192,7 +209,7 @@ namespace gui0Xgame {
 			// 
 			this->btn7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn7->Location = System::Drawing::Point(12, 224);
+			this->btn7->Location = System::Drawing::Point(12, 237);
 			this->btn7->Name = L"btn7";
 			this->btn7->Size = System::Drawing::Size(75, 75);
 			this->btn7->TabIndex = 10;
@@ -203,7 +220,7 @@ namespace gui0Xgame {
 			// 
 			this->btn8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn8->Location = System::Drawing::Point(93, 224);
+			this->btn8->Location = System::Drawing::Point(93, 237);
 			this->btn8->Name = L"btn8";
 			this->btn8->Size = System::Drawing::Size(75, 75);
 			this->btn8->TabIndex = 11;
@@ -214,7 +231,7 @@ namespace gui0Xgame {
 			// 
 			this->btn9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 39.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->btn9->Location = System::Drawing::Point(174, 224);
+			this->btn9->Location = System::Drawing::Point(174, 237);
 			this->btn9->Name = L"btn9";
 			this->btn9->Size = System::Drawing::Size(75, 75);
 			this->btn9->TabIndex = 12;
@@ -226,7 +243,7 @@ namespace gui0Xgame {
 			this->lbl->AutoSize = true;
 			this->lbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(238)));
-			this->lbl->Location = System::Drawing::Point(15, 312);
+			this->lbl->Location = System::Drawing::Point(15, 325);
 			this->lbl->MinimumSize = System::Drawing::Size(230, 20);
 			this->lbl->Name = L"lbl";
 			this->lbl->Size = System::Drawing::Size(230, 24);
@@ -239,7 +256,7 @@ namespace gui0Xgame {
 			this->btn_newGame->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->btn_newGame->ForeColor = System::Drawing::Color::Coral;
-			this->btn_newGame->Location = System::Drawing::Point(12, 340);
+			this->btn_newGame->Location = System::Drawing::Point(12, 353);
 			this->btn_newGame->Name = L"btn_newGame";
 			this->btn_newGame->Size = System::Drawing::Size(237, 40);
 			this->btn_newGame->TabIndex = 14;
@@ -248,11 +265,39 @@ namespace gui0Xgame {
 			this->btn_newGame->Visible = false;
 			this->btn_newGame->Click += gcnew System::EventHandler(this, &MainWindow::btn_newGame_Click);
 			// 
+			// chk1
+			// 
+			this->chk1->AutoSize = true;
+			this->chk1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->chk1->Location = System::Drawing::Point(12, 52);
+			this->chk1->Name = L"chk1";
+			this->chk1->Size = System::Drawing::Size(84, 20);
+			this->chk1->TabIndex = 15;
+			this->chk1->Text = L"Computer";
+			this->chk1->UseVisualStyleBackColor = true;
+			this->chk1->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::chk1_CheckedChanged);
+			// 
+			// chk2
+			// 
+			this->chk2->AutoSize = true;
+			this->chk2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->chk2->Location = System::Drawing::Point(149, 52);
+			this->chk2->Name = L"chk2";
+			this->chk2->Size = System::Drawing::Size(84, 20);
+			this->chk2->TabIndex = 16;
+			this->chk2->Text = L"Computer";
+			this->chk2->UseVisualStyleBackColor = true;
+			this->chk2->CheckedChanged += gcnew System::EventHandler(this, &MainWindow::checkBox1_CheckedChanged);
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(263, 391);
+			this->ClientSize = System::Drawing::Size(263, 404);
+			this->Controls->Add(this->chk2);
+			this->Controls->Add(this->chk1);
 			this->Controls->Add(this->btn_newGame);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->txb1);
@@ -270,6 +315,7 @@ namespace gui0Xgame {
 			this->Controls->Add(this->btn9);
 			this->Name = L"MainWindow";
 			this->Text = L"zéró-iksz játék";
+			this->Load += gcnew System::EventHandler(this, &MainWindow::MainWindow_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -568,6 +614,26 @@ namespace gui0Xgame {
 		firstsRound = !firstsRound;
 		WhosRound();
 		Rounds();
+	}
+	private: System::Void MainWindow_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void chk1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (chk1->Checked) {
+			firstName = msclr::interop::marshal_as<std::string>(txb1->Text);
+			txb1->Text = "Computer";
+		}
+		else {
+			txb1->Text = gcnew System::String(firstName.c_str());
+		}
+	}
+	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (chk2->Checked) {
+			secondName = msclr::interop::marshal_as<std::string>(txb2->Text);
+			txb2->Text = "Computer";
+		}
+		else {
+			txb2->Text = gcnew System::String(secondName.c_str());
+		}
 	}
 	};
 }
