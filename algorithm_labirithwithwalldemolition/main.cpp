@@ -11,7 +11,7 @@ struct Junction {
 	Junction(int x, int y) : x{ x }, y{ y } {}
 };
 int findPathStepToward(TestCase one, int cost) {
-	int labirinth[60][60];
+	long labirinth[60][60];
 	for (int y = 0; y < one.rows; ++y) {
 		for (int x = 0; x < one.cols; ++x) {
 			labirinth[x][y] = 50000;
@@ -111,7 +111,7 @@ int findPathStepToward(TestCase one, int cost) {
 
 
 int findPathWithBruteForce(TestCase one, int cost) {
-	int labirinth[60][60];
+	long labirinth[60][60];
 	for (int y = 0; y < one.rows; ++y) {
 		for (int x = 0; x < one.cols; ++x) {
 			labirinth[x][y] = 50000;
@@ -158,16 +158,16 @@ int findPathWithBruteForce(TestCase one, int cost) {
 // full copy of the test case so it can be modified locally
 int task1b(TestCase test_case) {
 	// TODO: Task 1 code here
-	int routeLength{ findPathWithBruteForce(test_case,10001) };
-	if (routeLength > 10000) {
+	int routeLength{ findPathWithBruteForce(test_case,5001) };
+	if (routeLength > 5000) {
 		return -1;
 	}
 	return routeLength / 2;
 }
 int task1f(TestCase test_case) {
 	// TODO: Task 1 code here
-	int routeLength{ findPathStepToward(test_case,10001) };
-	if (routeLength > 10000) {
+	int routeLength{ findPathStepToward(test_case,5001) };
+	if (routeLength > 5000) {
 		return -1;
 	}
 	return routeLength / 2;
@@ -175,23 +175,37 @@ int task1f(TestCase test_case) {
 
 int task2b(TestCase test_case) {
 	// TODO: Task 2 code here
-	int routeLength{ findPathWithBruteForce(test_case,10001) };
-	if (routeLength < 10000) {
-		return routeLength / 2;
+	int routeLength{ findPathWithBruteForce(test_case,5000) };
+	for (int i{ 0 }; i < test_case.rows; ++i) {
+		for (int j{ 0 }; j < test_case.cols; ++j) {
+			if (test_case.field.at(i).at(j) == 0) {
+				continue;
+			}
+			test_case.field.at(i).at(j) = 0;
+			routeLength = std::min(routeLength, findPathWithBruteForce(test_case, 5000));
+			test_case.field.at(i).at(j) = 1;
+		}
 	}
-	if (routeLength < 20000) {
-		return (routeLength - 10001) / 2;
+	if (routeLength < 5000) {
+		return routeLength / 2;
 	}
 	return -1;
 }
 int task2f(TestCase test_case) {
 	// TODO: Task 2 code here
-	int routeLength{ findPathStepToward(test_case,10001) };
-	if (routeLength < 10000) {
-		return routeLength / 2;
+	int routeLength{ findPathStepToward(test_case,5000) };
+	for (int i{ 0 }; i < test_case.rows; ++i) {
+		for (int j{ 0 }; j < test_case.cols; ++j) {
+			if (test_case.field.at(i).at(j) == 0) {
+				continue;
+			}
+			test_case.field.at(i).at(j) = 0;
+			routeLength = std::min(routeLength, findPathStepToward(test_case, 5000));
+			test_case.field.at(i).at(j) = 1;
+		}
 	}
-	if (routeLength < 20000) {
-		return (routeLength - 10001) / 2;
+	if (routeLength < 5000) {
+		return routeLength / 2;
 	}
 	return -1;
 }
@@ -213,13 +227,13 @@ int main()
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task1b(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task1f(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 
@@ -227,13 +241,13 @@ int main()
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task2b(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task2f(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 
@@ -241,13 +255,13 @@ int main()
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task3b(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 	for (TestCase& test_case : test_cases) {
 		auto startTime = std::chrono::system_clock::now();
 		std::cout << task3f(test_case) << " ";
-		std::cout << " (" << std::setw(6) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
+		std::cout << "(" << std::setw(5) << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - startTime).count() << ") ";
 	}
 	std::cout << std::endl;
 	return 0;
