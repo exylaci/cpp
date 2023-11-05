@@ -14,4 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="oszto0.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto1.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto2.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto3.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto4.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto5.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="oszto6.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
