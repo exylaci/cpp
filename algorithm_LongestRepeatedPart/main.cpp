@@ -25,22 +25,15 @@ int main() {
 		int resoult = 0;
 		for (int from = 0; from < stringLength; ++from) {
 			for (int subStringLength = 1; subStringLength < stringLength - from; ++subStringLength) {
-				int repeats = (stringLength - from) / subStringLength;
 				bool exists = true;
 				for (int i = 0; i < subStringLength; ++i) {
-					for (int j = 1; j <= repeats; ++j) {
-						if (s[from + i] != s[from + i + j * subStringLength]) {
-							repeats = j - 1;
-							break;
-						}
-					}
-					if (repeats < 1) {
+					if (s[from + i] != s[from + i + subStringLength]) {
 						exists = false;
 						break;
 					}
 				}
 				if (exists) {
-					resoult = max(resoult, subStringLength * (repeats + 1));
+					resoult = max(resoult, subStringLength * 2);
 				}
 			}
 		}
