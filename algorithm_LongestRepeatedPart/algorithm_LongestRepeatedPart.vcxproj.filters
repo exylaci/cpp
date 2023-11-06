@@ -14,4 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="unalmas0.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas1.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas2.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas3.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas4.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas5.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="unalmas6.in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
