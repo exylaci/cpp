@@ -21,10 +21,10 @@ int main() {
 		string s;
 		fi >> s;
 		int stringLength = s.size();
-
+		int foundSubStringLength = 1;
 		int resoult = 0;
 		for (int from = 0; from < stringLength; ++from) {
-			for (int subStringLength = 1; subStringLength < stringLength - from; ++subStringLength) {
+			for (int subStringLength = foundSubStringLength; subStringLength*2 <= stringLength - from; ++subStringLength) {
 				bool exists = true;
 				for (int i = 0; i < subStringLength; ++i) {
 					if (s[from + i] != s[from + i + subStringLength]) {
@@ -34,6 +34,7 @@ int main() {
 				}
 				if (exists) {
 					resoult = max(resoult, subStringLength * 2);
+					foundSubStringLength = subStringLength;
 				}
 			}
 		}
