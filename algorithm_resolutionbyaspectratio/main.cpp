@@ -29,6 +29,15 @@ int main() {
 		long long x = ratio * third;
 		long long y = ratio * fourth;
 
+		for (long long i = x; i <= first; ++i) {
+			double newy = (double)(i) / third * fourth;
+			//cout << aspect << " ";
+			if (newy == floor(newy) && newy <= second) {
+				x = i;
+				y = newy;
+			}
+		}
+
 		cout << x << " " << y << endl;
 	}
 }
