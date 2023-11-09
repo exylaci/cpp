@@ -16,21 +16,19 @@ int main() {
 			continue;
 		}
 
-		string temp1, temp2;
-		int third, fourth;
-		fi >> temp1 >> temp2 >> third >> fourth;
-		BigInt first{ temp1 };
-		BigInt second{ temp2 };
+		long long temp1, temp2, temp3, temp4;
+		fi >> temp1 >> temp2 >> temp3 >> temp4;
 		fi.close();
-		if (third > fourth) {
-			BigInt A{ first };
-			A /= third;
-			cout << A * third << " " << A * fourth << endl;
-		}
-		else {
-			BigInt B{ second };
-			B /= fourth;
-			cout << B * third << " " << B * fourth << endl;
-		}
+
+		long long first = max(temp1, temp2);
+		long long second = min(temp1, temp2);
+		long long third = max(temp3, temp4);
+		long long fourth = min(temp3, temp4);
+
+		long long ratio = min(first / third, second / fourth);
+		long long x = ratio * third;
+		long long y = ratio * fourth;
+
+		cout << x << " " << y << endl;
 	}
 }
