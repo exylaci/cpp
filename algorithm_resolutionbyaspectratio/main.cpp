@@ -3,6 +3,8 @@
 #include <fstream>
 #include "../bigint/bigint.cpp"
 
+const long PRECISION = 1'000'000L;
+
 int main() {
 	using namespace std;
 	for (char fileCounter = '0'; fileCounter <= '6'; ++fileCounter) {
@@ -29,10 +31,10 @@ int main() {
 		long long x = ratio * third;
 		long long y = ratio * fourth;
 
-		for (long long i = x; i <= first; ++i) {
+		for (long long i = x + 1; i <= first; ++i) {
 			double newy = (double)(i) / third * fourth;
 			//cout << aspect << " ";
-			if (newy == floor(newy) && newy <= second) {
+			if (newy * PRECISION == round(newy * PRECISION) && newy <= second) {
 				x = i;
 				y = newy;
 			}
