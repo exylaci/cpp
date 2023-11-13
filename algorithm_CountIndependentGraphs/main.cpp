@@ -5,7 +5,6 @@
 #include <iomanip>
 
 int main() {
-	int a[100000];
 
 	for (char fileCounter = '1'; fileCounter <= '5'; ++fileCounter) {
 		std::string filename("sziget");
@@ -20,10 +19,7 @@ int main() {
 
 		int cities;
 		fi >> cities;
-		if (cities > sizeof(a) / sizeof(cities)) {
-			std::cout << filename << "   Tul sok telepules van!" << std::endl;
-			continue;
-		}
+		int* a = new int[cities];
 		for (int index = 0; index < cities; ++index) a[index] = 0;
 
 		int city1;
