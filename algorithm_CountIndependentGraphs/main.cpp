@@ -26,12 +26,14 @@ int main() {
 		int city2;
 		int current;
 		int merge;
-		int islands{ 1 };
+		int islands{ 0 };
+		int counter{ 1 };
 		while (fi >> city1 >> city2) {
 			if (a[city1] == 0 && a[city2] == 0) {
-				a[city1] = islands;
-				a[city2] = islands;
+				a[city1] = counter;
+				a[city2] = counter;
 				++islands;
+				++counter;
 			}
 			else {
 				if (a[city1] == 0) {
@@ -47,16 +49,12 @@ int main() {
 						if (a[index] == merge) {
 							a[index] = current;
 						}
-						else if (a[index] > merge) {
-							--a[index];
-						}
 					}
 					--islands;
 				}
 			}
 		}
 		fi.close();
-		--islands;
 
 		std::cout << fileCounter << ":  szigetek szama: " << islands;
 		std::cout << "    (futasi ido:" << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << ")" << std::endl;
