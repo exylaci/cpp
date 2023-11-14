@@ -7,6 +7,15 @@
 
 int main() {
 	using namespace std;
+
+	BigInt number{ "1" };
+	vector<BigInt> factorials{};
+	factorials.reserve(101);
+	for (int count{ 1 }; count <= 101; ++count) {
+		factorials.emplace_back(number);
+		number *= count;
+	}
+
 	for (char fileCounter = '1'; fileCounter <= '3'; ++fileCounter) {
 		string filename("combine");
 		filename += fileCounter;
@@ -20,15 +29,14 @@ int main() {
 
 		int n;
 		int k;
-		BigInt resoult{ "0" };
+		int resoult{ 0 };
 		BigInt calculation{ "1" };
 		const BigInt zero{ "0" };
 		fi >> n;
 		while (fi >> n >> k) {
-			calculation = Factorial(n) / (Factorial(n - k) * Factorial(k));
-			while (calculation > zero) {
-				resoult += calculation % 10;
-				calculation /= 10;
+			calculation = factorials.at(n) / (factorials.at(n - k) * factorials.at(k));
+			for (int index{ Length(calculation) - 1 }; index >= 0; --index) {
+				resoult += calculation[index];
 			}
 		}
 

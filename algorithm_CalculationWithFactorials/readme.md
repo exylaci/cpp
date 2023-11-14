@@ -16,5 +16,5 @@ Your program needs to output the sum of digits of the results. In this case the 
 - combine3.txt: N=10000, n<=100, k<=15 or n<=60  
 Note: prepare to handle huge numbers precisely!  
 
-##Input handling  
+## Input handling  
 The provided input files do not have formatting errors or any data violating the said constraints. Simply reading from ***std::cin*** (or ***std:ifstream***) to N, then N times to n and k should be sufficient input handling.  
