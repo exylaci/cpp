@@ -3,6 +3,20 @@
 #include <string>
 #include <chrono>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
+
+struct Range
+{
+	int pieces;
+	int first;
+	bool operator >(const Range& r) const {
+		return pieces > r.pieces;
+	}
+	bool operator <(const Range& r) const {
+		return pieces < r.pieces;
+	}
+};
 
 int main() {
 	using namespace std;
@@ -23,7 +37,7 @@ int main() {
 		fi >> n >> k;
 		cout << fileCounter << ":" << std::setw(7) << n << std::setw(3) << k << " -> ";
 
-		int data[100000];
+		int* data = new int[n];
 		int index = 0;
 		while (fi >> data[index]) {
 			++index;
@@ -34,41 +48,43 @@ int main() {
 			continue;
 		}
 
-		int maxDarab{ 0 };
-		int vege{ 0 };
-		for (int eleje = 0; eleje + maxDarab < n; ++eleje) {
-			//find a potential range
-			for (vege = eleje + 1; vege < n && abs(data[eleje] - data[vege]) <= k; ++vege) {
+		int last{ 0 };
+		std::vector<Range> ranges{};
+		for (int first = 0; first < n; ++first) {
+			//collect the potential ranges
+			for (last = first + 1; last < n && abs(data[first] - data[last]) <= k; ++last) {
 			}
-			--vege;
+			--last;
+			ranges.emplace_back(Range{ last - first + 1, first });
+		}
+		std::sort(ranges.begin(), ranges.end(), std::greater<Range>());
 
-			//is the range long enough?
-			if (vege - eleje < maxDarab) {
-				continue;
+		int maxPieces{ 0 };
+		for (const auto& one : ranges) {
+			//is this range long enough?
+			if (one.pieces <= maxPieces) {
+				break;
 			}
 
-			//check the range
-			bool fewRemained = false;
-			for (int i = eleje; i < vege; ++i) {
-				for (int j = i + 1; j <= vege; ++j) {
+			//check this range
+			last = one.first + one.pieces - 1;
+			for (int i = one.first; i < last; ++i) {
+				for (int j = i + 1; j <= last; ++j) {
 					if (abs(data[i] - data[j]) > k) {
-						//reduce the length of the range
-						vege = j - 1;
-						if (vege - eleje < maxDarab) {
+						//reduce the length of this range
+						last = j - 1;
+						if (last - one.first < maxPieces) {
 							//the remained part is too short
-							fewRemained = true;
+							goto label;
 						}
 						break;
 					}
 				}
-				if (fewRemained) {
-					break;
-				}
 			}
-			maxDarab = std::max(maxDarab, vege - eleje + 1);
+			label: maxPieces = std::max(maxPieces, last - one.first + 1);
 		}
 
-		std::cout << std::setw(4) << maxDarab;
+		std::cout << std::setw(4) << maxPieces;
 		std::cout << "    (futasi ido: " << std::setw(6) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
 		std::cout << endl;
 	}
