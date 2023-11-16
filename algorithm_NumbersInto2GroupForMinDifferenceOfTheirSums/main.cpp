@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <algorithm>
 
 int main() {
 	using namespace std;
@@ -15,9 +17,16 @@ int main() {
 			continue;
 		}
 
+		std::vector<int> nums{};
 		int num;
-		long difference{ 0 };
 		while (fi >> num) {
+			nums.emplace_back(num);
+		}
+		fi.close();
+
+		std::sort(nums.begin(), nums.end(), std::greater<int>());
+		long difference{ 0 };
+		for (const auto num : nums) {
 			if (difference > 0) {
 				difference -= num;
 			}
@@ -25,8 +34,7 @@ int main() {
 				difference += num;
 			}
 		}
-		fi.close();
 
-		std::cout << fileCounter << ":  " << abs(difference) << endl;
+		std::cout << fileCounter << ":   " << abs(difference) << endl;
 	}
 }
