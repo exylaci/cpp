@@ -37,6 +37,30 @@ struct Tetragon
 	Tetragon(Point a, Point b, Point c, Point d) : a{ a }, b{ b }, c{ c }, d{ d } {}
 };
 
+bool isDepraved(Tetragon& t) {
+	if (t.a == t.b || t.b == t.c || t.c == t.d || t.d == t.a) {
+		return true;
+	}
+	t.ga = t.a.y - t.b.y;
+	t.ga /= t.a.x - t.b.x;
+	t.gb = t.b.y - t.c.y;
+	t.gb /= t.b.x - t.c.x;
+	if (t.ga == t.gb) {
+		return true;
+	}
+	t.gc = t.c.y - t.d.y;
+	t.gc /= t.c.x - t.d.x;
+	if (t.gb == t.gc) {
+		return true;
+	}
+	t.gd = t.d.y - t.a.y;
+	t.gd /= t.d.x - t.a.x;
+	if (t.gc == t.gd || t.gd == t.ga) {
+		return true;
+	}
+	return false;
+}
+
 int main() {
 	using namespace std;
 
@@ -59,6 +83,12 @@ int main() {
 		Tetragon t{ a,b,c,d };
 		std::string qualifications{};
 		while (fi >> t.a.x >> t.a.y >> t.b.x >> t.b.y >> t.c.x >> t.c.y >> t.d.x >> t.d.y) {
+			if (isDepraved(t)) {
+				qualifications += 'E';
+			}
+			else {
+				qualifications += '.';
+			}
 		}
 		fi.close();
 
