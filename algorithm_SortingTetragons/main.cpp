@@ -27,18 +27,18 @@ struct Tetragon
 	Point b;
 	Point c;
 	Point d;
-	float ga{};		//gradients
-	float gb{};
-	float gc{};
-	float gd{};
-	float gap{};	//perpendicular gradient
-	float gbp{};
-	float gcp{};
-	float gdp{};
-	float la{};		//lengths
-	float lb{};
-	float lc{};
-	float ld{};
+	double ga{};		//gradients
+	double gb{};
+	double gc{};
+	double gd{};
+	double gap{};	//perpendicular gradient
+	double gbp{};
+	double gcp{};
+	double gdp{};
+	double la{};		//lengths
+	double lb{};
+	double lc{};
+	double ld{};
 	Tetragon(Point a, Point b, Point c, Point d) : a{ a }, b{ b }, c{ c }, d{ d } {}
 };
 
@@ -48,18 +48,18 @@ bool isDepraved(Tetragon& t) {
 	}
 	t.ga = t.a.y - t.b.y;
 	t.ga /= t.a.x - t.b.x;
-	if (t.ga > -std::numeric_limits<float>::min() && t.ga < std::numeric_limits<float>::min()) {
+	if (t.ga > -std::numeric_limits<double>::min() && t.ga < std::numeric_limits<double>::min()) {
 		t.ga = 0;
 	}
-	if (t.ga == -std::numeric_limits<float>::infinity()) {
+	if (t.ga == -std::numeric_limits<double>::infinity()) {
 		t.ga = -t.ga;
 	}
 	t.gb = t.b.y - t.c.y;
 	t.gb /= t.b.x - t.c.x;
-	if (t.gb > -std::numeric_limits<float>::min() && t.gb < std::numeric_limits<float>::min()) {
+	if (t.gb > -std::numeric_limits<double>::min() && t.gb < std::numeric_limits<double>::min()) {
 		t.gb = 0;
 	}
-	if (t.gb == -std::numeric_limits<float>::infinity()) {
+	if (t.gb == -std::numeric_limits<double>::infinity()) {
 		t.gb = -t.gb;
 	}
 	if (t.ga == t.gb) {
@@ -67,10 +67,10 @@ bool isDepraved(Tetragon& t) {
 	}
 	t.gc = t.c.y - t.d.y;
 	t.gc /= t.c.x - t.d.x;
-	if (t.gc > -std::numeric_limits<float>::min() && t.gc < std::numeric_limits<float>::min()) {
+	if (t.gc > -std::numeric_limits<double>::min() && t.gc < std::numeric_limits<double>::min()) {
 		t.gc = 0;
 	}
-	if (t.gc == -std::numeric_limits<float>::infinity()) {
+	if (t.gc == -std::numeric_limits<double>::infinity()) {
 		t.gc = -t.gc;
 	}
 	if (t.gb == t.gc) {
@@ -78,10 +78,10 @@ bool isDepraved(Tetragon& t) {
 	}
 	t.gd = t.d.y - t.a.y;
 	t.gd /= t.d.x - t.a.x;
-	if (t.gd > -std::numeric_limits<float>::min() && t.gd < std::numeric_limits<float>::min()) {
+	if (t.gd > -std::numeric_limits<double>::min() && t.gd < std::numeric_limits<double>::min()) {
 		t.gd = 0;
 	}
-	if (t.gd == -std::numeric_limits<float>::infinity()) {
+	if (t.gd == -std::numeric_limits<double>::infinity()) {
 		t.gd = -t.gd;
 	}
 	if (t.gc == t.gd || t.gd == t.ga) {
@@ -100,10 +100,10 @@ bool isSquare(Tetragon& t) {
 	}
 	t.gbp = t.c.x - t.b.x;
 	t.gbp /= t.b.y - t.c.y;
-	if (t.gbp > -std::numeric_limits<float>::min() && t.gbp < std::numeric_limits<float>::min()) {
+	if (t.gbp > -std::numeric_limits<double>::min() && t.gbp < std::numeric_limits<double>::min()) {
 		t.gbp = 0;
 	}
-	if (t.gbp == -std::numeric_limits<float>::infinity()) {
+	if (t.gbp == -std::numeric_limits<double>::infinity()) {
 		t.gbp = -t.gbp;
 	}
 	if (t.ga != t.gbp) {
@@ -182,7 +182,7 @@ int main() {
 				qualifications += 'D';
 			}
 			else {
-				qualifications += 'L';
+				qualifications += '.';
 			}
 		}
 		fi.close();
@@ -191,4 +191,5 @@ int main() {
 		std::cout << "    (futasi ido:" << std::setw(7) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
 		std::cout << endl;
 	}
+	return 0;
 }
