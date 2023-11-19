@@ -134,8 +134,8 @@ bool isRhombus(Tetragon& t) {
 }
 
 bool isParallelogram(Tetragon& t) {
-	return false;
-}
+	return t.ga == t.gc && t.gb == t.gd;
+	}
 
 bool isTrapeze(Tetragon& t) {
 	return false;
