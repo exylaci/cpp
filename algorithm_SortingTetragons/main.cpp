@@ -27,7 +27,7 @@ struct Tetragon
 	Point b;
 	Point c;
 	Point d;
-	double ga{};		//gradients
+	double ga{};	//gradients
 	double gb{};
 	double gc{};
 	double gd{};
@@ -35,7 +35,7 @@ struct Tetragon
 	double gbp{};
 	double gcp{};
 	double gdp{};
-	double la{};		//lengths
+	double la{};	//lengths
 	double lb{};
 	double lc{};
 	double ld{};
@@ -109,14 +109,14 @@ bool isSquare(Tetragon& t) {
 	if (t.ga != t.gbp) {
 		return false;
 	}
-
+	
 	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
 	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
 	return t.la == t.lb;
 }
 
-bool isRectangle(Tetragon& t) {
-	return false;
+bool isRectangular(Tetragon& t) {
+	return t.ga == t.gc && t.gb == t.gd && t.ga == t.gbp;
 }
 
 bool isRhombus(Tetragon& t) {
@@ -166,7 +166,7 @@ int main() {
 			else if (isSquare(t)) {
 				qualifications += 'N';
 			}
-			else if (isRectangle(t)) {
+			else if (isRectangular(t)) {
 				qualifications += 'T';
 			}
 			else if (isRhombus(t)) {
@@ -184,7 +184,6 @@ int main() {
 			else {
 				qualifications += '.';
 			}
-		}
 		fi.close();
 
 		std::cout << fileCounter << ": " << qualifications;
