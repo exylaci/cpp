@@ -135,14 +135,16 @@ bool isRhombus(Tetragon& t) {
 
 bool isParallelogram(Tetragon& t) {
 	return t.ga == t.gc && t.gb == t.gd;
-	}
+}
 
 bool isTrapeze(Tetragon& t) {
 	return t.ga == t.gc || t.gb == t.gd;
 }
 
 bool isDeltoid(Tetragon& t) {
-	return false;
+	t.lc = sqrt(pow(t.c.x - t.d.x, 2) + pow(t.c.y - t.d.y, 2));
+	t.ld = hypot(abs(t.d.x - t.a.x), abs(t.d.y - t.a.y));
+	return (t.la == t.lb && t.lc == t.ld) || (t.lb == t.lc && t.ld == t.la);
 }
 
 int main() {
@@ -192,7 +194,7 @@ int main() {
 				qualifications += 'D';
 			}
 			else {
-				qualifications += '.';
+				qualifications += 'L';
 			}
 		}
 		fi.close();
