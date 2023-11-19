@@ -138,7 +138,7 @@ bool isParallelogram(Tetragon& t) {
 	}
 
 bool isTrapeze(Tetragon& t) {
-	return false;
+	return t.ga == t.gc || t.gb == t.gd;
 }
 
 bool isDeltoid(Tetragon& t) {
