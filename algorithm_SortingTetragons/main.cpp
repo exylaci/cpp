@@ -3,16 +3,13 @@
 #include <string>
 #include <chrono>
 #include <iomanip>
-#include <list>
-#include <algorithm>
-#include <vector>
-#include "../bigint/bigint.cpp"
+#include <limits>
 
 struct Point
 {
 	long long x;
 	long long y;
-	Point(int x, int y) : x{ x }, y{ y } {}
+	Point(long long x, long long y) : x{ x }, y{ y } {}
 	bool operator<(const Point& p) const {
 		return p.x == x ? y < p.y : x < p.x;
 	}
@@ -26,14 +23,22 @@ struct Point
 
 struct Tetragon
 {
-	Point a;
+	Point a;		//coordinates
 	Point b;
 	Point c;
 	Point d;
-	float ga{};
+	float ga{};		//gradients
 	float gb{};
 	float gc{};
 	float gd{};
+	float gap{};	//perpendicular gradient
+	float gbp{};
+	float gcp{};
+	float gdp{};
+	float la{};		//lengths
+	float lb{};
+	float lc{};
+	float ld{};
 	Tetragon(Point a, Point b, Point c, Point d) : a{ a }, b{ b }, c{ c }, d{ d } {}
 };
 
@@ -43,21 +48,90 @@ bool isDepraved(Tetragon& t) {
 	}
 	t.ga = t.a.y - t.b.y;
 	t.ga /= t.a.x - t.b.x;
+	if (t.ga > -std::numeric_limits<float>::min() && t.ga < std::numeric_limits<float>::min()) {
+		t.ga = 0;
+	}
+	if (t.ga == -std::numeric_limits<float>::infinity()) {
+		t.ga = -t.ga;
+	}
 	t.gb = t.b.y - t.c.y;
 	t.gb /= t.b.x - t.c.x;
+	if (t.gb > -std::numeric_limits<float>::min() && t.gb < std::numeric_limits<float>::min()) {
+		t.gb = 0;
+	}
+	if (t.gb == -std::numeric_limits<float>::infinity()) {
+		t.gb = -t.gb;
+	}
 	if (t.ga == t.gb) {
 		return true;
 	}
 	t.gc = t.c.y - t.d.y;
 	t.gc /= t.c.x - t.d.x;
+	if (t.gc > -std::numeric_limits<float>::min() && t.gc < std::numeric_limits<float>::min()) {
+		t.gc = 0;
+	}
+	if (t.gc == -std::numeric_limits<float>::infinity()) {
+		t.gc = -t.gc;
+	}
 	if (t.gb == t.gc) {
 		return true;
 	}
 	t.gd = t.d.y - t.a.y;
 	t.gd /= t.d.x - t.a.x;
+	if (t.gd > -std::numeric_limits<float>::min() && t.gd < std::numeric_limits<float>::min()) {
+		t.gd = 0;
+	}
+	if (t.gd == -std::numeric_limits<float>::infinity()) {
+		t.gd = -t.gd;
+	}
 	if (t.gc == t.gd || t.gd == t.ga) {
 		return true;
 	}
+	return false;
+}
+
+bool isSelfcutting(Tetragon& t) {
+	return false;
+}
+
+bool isSquare(Tetragon& t) {
+	if (t.ga != t.gc || t.gb != t.gd) {
+		return false;
+	}
+	t.gbp = t.c.x - t.b.x;
+	t.gbp /= t.b.y - t.c.y;
+	if (t.gbp > -std::numeric_limits<float>::min() && t.gbp < std::numeric_limits<float>::min()) {
+		t.gbp = 0;
+	}
+	if (t.gbp == -std::numeric_limits<float>::infinity()) {
+		t.gbp = -t.gbp;
+	}
+	if (t.ga != t.gbp) {
+		return false;
+	}
+
+	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
+	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
+	return t.la == t.lb;
+}
+
+bool isRectangle(Tetragon& t) {
+	return false;
+}
+
+bool isRhombus(Tetragon& t) {
+	return false;
+}
+
+bool isParallelogram(Tetragon& t) {
+	return false;
+}
+
+bool isTrapeze(Tetragon& t) {
+	return false;
+}
+
+bool isDeltoid(Tetragon& t) {
 	return false;
 }
 
@@ -86,8 +160,29 @@ int main() {
 			if (isDepraved(t)) {
 				qualifications += 'E';
 			}
+			else if (isSelfcutting(t)) {
+				qualifications += 'M';
+			}
+			else if (isSquare(t)) {
+				qualifications += 'N';
+			}
+			else if (isRectangle(t)) {
+				qualifications += 'T';
+			}
+			else if (isRhombus(t)) {
+				qualifications += 'R';
+			}
+			else if (isParallelogram(t)) {
+				qualifications += 'P';
+			}
+			else if (isTrapeze(t)) {
+				qualifications += 'Z';
+			}
+			else if (isDeltoid(t)) {
+				qualifications += 'D';
+			}
 			else {
-				qualifications += '.';
+				qualifications += 'L';
 			}
 		}
 		fi.close();
