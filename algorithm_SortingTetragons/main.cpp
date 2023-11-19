@@ -109,7 +109,7 @@ bool isSquare(Tetragon& t) {
 	if (t.ga != t.gbp) {
 		return false;
 	}
-	
+
 	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
 	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
 	return t.la == t.lb;
@@ -120,7 +120,17 @@ bool isRectangular(Tetragon& t) {
 }
 
 bool isRhombus(Tetragon& t) {
-	return false;
+	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
+	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
+	if (t.la != t.lb) {
+		return false;
+	}
+	t.lc = sqrt(pow(t.c.x - t.d.x, 2) + pow(t.c.y - t.d.y, 2));
+	if (t.la != t.lc) {
+		return false;
+	}
+	t.ld = hypot(abs(t.d.x - t.a.x), abs(t.d.y - t.a.y));
+	return t.la == t.ld;
 }
 
 bool isParallelogram(Tetragon& t) {
@@ -184,6 +194,7 @@ int main() {
 			else {
 				qualifications += '.';
 			}
+		}
 		fi.close();
 
 		std::cout << fileCounter << ": " << qualifications;
