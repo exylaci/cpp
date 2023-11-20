@@ -91,7 +91,27 @@ bool isDepraved(Tetragon& t) {
 }
 
 bool isSelfcutting(Tetragon& t) {
-	return false;
+	bool onOneSide = false;
+	double ge = (double)(t.c.y - t.a.y) / (t.c.x - t.a.x);
+	double ce = t.a.y - ge * t.a.x;
+	if (ge == std::numeric_limits<double>::infinity() || ge == -std::numeric_limits<double>::infinity()) {
+		onOneSide = ((t.b.x > t.a.x && t.d.x > t.a.x) || (t.b.x < t.a.x && t.d.x < t.a.x));
+	}
+	else if (ge > -std::numeric_limits<double>::min() && ge < std::numeric_limits<double>::min()) {
+		onOneSide = ((t.b.y > t.a.y && t.d.y > t.a.y) || (t.b.y < t.a.y && t.d.y < t.a.y));
+	}
+	else {
+		onOneSide = (ge * t.b.x + ce > t.b.y && ge * t.d.x + ce > t.d.y) || (ge * t.b.x + ce < t.b.y && ge * t.d.x + ce < t.d.y);
+	}
+	double gf = (double)(t.d.y - t.b.y) / (t.d.x - t.b.x);
+	if (gf == std::numeric_limits<double>::infinity() || gf == -std::numeric_limits<double>::infinity()) {
+		return onOneSide && ((t.c.x > t.b.x && t.a.x > t.b.x) || (t.c.x < t.b.x && t.a.x < t.b.x));
+	}
+	else if (gf > -std::numeric_limits<double>::min() && gf < std::numeric_limits<double>::min()) {
+		return onOneSide && ((t.c.y > t.b.y && t.a.y > t.b.y) || (t.c.y < t.b.y && t.a.y < t.b.y));
+	}
+	double cf = t.b.y - gf * t.b.x;
+	return onOneSide && (gf * t.c.x + cf > t.c.y && gf * t.a.x + cf > t.a.y) || (gf * t.c.x + cf < t.c.y && gf * t.a.x + cf < t.a.y);
 }
 
 bool isSquare(Tetragon& t) {
