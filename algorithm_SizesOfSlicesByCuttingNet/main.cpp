@@ -63,7 +63,6 @@ int main() {
 		std::list<int> sizes{};
 		int size = 1;
 		for (int y = 0; y < height; ++y) {
-			size = 1;
 			for (int x = 0; x < width; ++x) {
 				if (v[x + 1][y] == -1 || v[x + 1][y] == -3) {
 					v[x][y] = size;
@@ -79,9 +78,23 @@ int main() {
 				++size;
 			}
 		}
-		cout << fileCounter << ": I've found " << sizes.size() << " pieces.";
 
-		std::cout << "    (futasi ido: " << std::setw(6) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
+		long long sum{ 0 };
+		for (const auto& oneSize : sizes) {
+			sum += oneSize;
+		}
+		double average = (double)sum / sizes.size();
+		double variance{ 0 };
+		for (const auto& oneSize : sizes) {
+			variance += pow((double)oneSize - average, 2);
+		}
+		variance /= sizes.size();
+		double deviation = sqrt(variance);
+
+		std::cout << "Bemenet: " << fileCounter << "-ben a" << std::setw(5)
+			<< sizes.size() << " darab teglalap teruleteinek szorasa:"
+			<< std::setw(10) << std::fixed << std::setprecision(2) << deviation;
+		std::cout << "    (futasi ido:" << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
 		std::cout << endl;
 	}
 }
