@@ -4,10 +4,25 @@
 #include <chrono>
 #include <iomanip>
 #include <list>
+#include <numeric>
 
-int v[10001][10001]{};
+int** ReserveArray(int& width, int& height) {
+	int** v = new int* [width + 1];
+	for (int i = 0; i <= width; ++i) {
+		int* p = new int[height + 1];
+		v[i] = p;
+	}
+	return v;
+}
 
-void CleanUp(int& width, int& height) {
+void ReleaseArray(int& width, int** v) {
+	for (int i = 0; i <= width; ++i) {
+		delete[] v[i];
+	}
+	delete[] v;
+}
+
+void CleanUp(int& width, int& height, int** v) {
 	for (int x = 0; x < width; ++x) {
 		for (int y = 0; y < height; ++y) {
 			v[x][y] = 0;
@@ -40,7 +55,8 @@ int main() {
 		int height;
 		int cuts;
 		fi >> width >> height >> cuts;
-		CleanUp(width, height);
+		auto v = ReserveArray(width, height);
+		CleanUp(width, height, v);
 
 		int ax;
 		int ay;
@@ -78,11 +94,9 @@ int main() {
 				++size;
 			}
 		}
+		ReleaseArray(width, v);
 
-		long long sum{ 0 };
-		for (const auto& oneSize : sizes) {
-			sum += oneSize;
-		}
+		long long sum{ std::accumulate(sizes.begin(),sizes.end(),0) };
 		double average = (double)sum / sizes.size();
 		double variance{ 0 };
 		for (const auto& oneSize : sizes) {
