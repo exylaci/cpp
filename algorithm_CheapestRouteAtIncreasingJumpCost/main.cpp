@@ -19,10 +19,8 @@ int main() {
 		fi >> thisData;
 		int width = thisData.size();
 		int* line = new int[width];
-		fi.seekg(0);
-
 		int lineCounter{ 0 };
-		while (fi >> thisData) {
+		do {
 			int up = INT_MAX;
 			int left = INT_MAX;
 			for (int i{ 0 }; i < width; ++i) {
@@ -45,12 +43,12 @@ int main() {
 			}
 			++lineCounter;
 			previousData = thisData;
-		}
+		} while (fi >> thisData);
 		fi.close();
 
 		//the minimum cost, as the cost of the optimal route is in the last cell of the array
-		std::cout << fileCounter << ": " << width << " x " << lineCounter << "  ->  " 
+		std::cout << fileCounter << ": " << width << " x " << lineCounter << "  ->  "
 			<< line[width - 1] << std::endl;
-		delete [] line;
+		delete[] line;
 	}
 }
