@@ -5,222 +5,199 @@
 #include <iomanip>
 #include <limits>
 
+//coordinates
 struct Point
 {
-	long long x;
-	long long y;
-	Point(long long x, long long y) : x{ x }, y{ y } {}
-	bool operator<(const Point& p) const {
-		return p.x == x ? y < p.y : x < p.x;
+	double x;
+	double y;
+
+	Point operator-(const Point& p) const {
+		return Point{ x - p.x , y - p.y };
 	}
-	bool operator>(const Point& p) const {
-		return p.x == x ? y > p.y : x > p.x;
-	}
+
 	bool operator==(const Point& p) const {
 		return p.x == x && p.y == y;
 	}
 };
 
+//gradients of two sides are equal
+bool isParalel(const Point a, const Point b) {
+	return (double)a.y * b.x == (double)a.x * b.y;
+}
+
+//gradients of two sides are 1/-x
+bool isPerpendicular(const Point a, const Point b) {
+	return (double)a.y * b.y == -(double)a.x * b.x;
+}
+
+//length^2 of a side
+double diagonPow2(const Point a) {
+	//by Pythegoras but without squareroot because we only want to compare two of them
+	return (double)a.x * a.x + (double)a.y * a.y;
+}
+
+//1 or -1 depending we turn on the right or left at the peak
+int direction(Point b, Point d) {
+	if (d.y == 0) {
+		return ((d.x < 0) && (b.y < 0)) || ((d.x > 0) && (b.y > 0)) ? 1 : -1;
+	}
+	if (d.x == 0) {
+		return ((d.y < 0) && (b.x > 0)) || ((d.y > 0) && (b.x < 0)) ? 1 : -1;
+	}
+	double by2 = (double)b.x * d.y / d.x;
+	return ((d.x < 0) && (b.y < by2)) || ((d.x > 0) && (b.y > by2)) ? 1 : -1;
+}
+
+//Contains 4 peaks of the tetragon
 struct Tetragon
 {
-	Point a;		//coordinates
+	Point a;	//coordinates of peaks
 	Point b;
 	Point c;
 	Point d;
-	double ga{};	//gradients
-	double gb{};
-	double gc{};
-	double gd{};
-	double gap{};	//perpendicular gradient
-	double gbp{};
-	double gcp{};
-	double gdp{};
-	double la{};	//lengths
-	double lb{};
-	double lc{};
-	double ld{};
 	Tetragon(Point a, Point b, Point c, Point d) : a{ a }, b{ b }, c{ c }, d{ d } {}
+
+	//any two peaks have the same coordinates
+	bool isDepraved() const {
+		if (a == b || a == c || a == d || b == c || b == d || c == d) {
+			return true;
+		}
+		return isParalel(b - a, c - b)
+			|| isParalel(c - b, d - c)
+			|| isParalel(d - c, a - d)
+			|| isParalel(a - d, b - a);
+	}
+
+	//selfcutting if we turn two times right and two times left at the peaks
+	bool isSelfcutting() {
+		int turns{ 0 };
+		turns += direction(d - a, b - a);
+		turns += direction(a - b, c - b);
+		turns += direction(b - c, d - c);
+		turns += direction(c - d, a - d);
+		return turns == 0;
+	}
+
+	//two times two paralel side and only one perpendicular side pair is enough
+	//the other perpendiculars are obvious
+	//and also 2 side have the same length is enoug the rest are also obvious
+	bool isSquare() const {
+		double aside = diagonPow2(a - b);
+		double bside = diagonPow2(b - c);
+
+		return isParalel(b - a, c - d)
+			&& isParalel(c - b, d - a)
+			&& (isPerpendicular(b - a, c - b) || isPerpendicular(b - a, b - c))
+			&& (aside == bside);
+	}
+
+	//two times two paralel side and one perpendicular side pair is also enough
+	bool isRectangular() const {
+		return isParalel(b - a, c - d)
+			&& isParalel(c - b, d - a)
+			&& (isPerpendicular(b - a, c - b) || isPerpendicular(b - a, b - c));
+	}
+
+	//all sides have the same length
+	bool isRhombus() {
+		double aside = diagonPow2(a - b);
+		double bside = diagonPow2(b - c);
+		double cside = diagonPow2(c - d);
+		double dside = diagonPow2(d - a);
+
+		return (aside == bside) && (aside == cside) && (aside == dside);
+	}
+
+	//two times two paralel side
+	//the two times to equal side lenths could also good, but it takes longer time to calculate that one
+	bool isParallelogram() const {
+		return isParalel(b - a, c - d)
+			&& isParalel(c - b, d - a);
+	}
+
+	//one times two paralel side is enough
+	bool isTrapeze() const {
+		return isParalel(b - a, c - d)
+			|| isParalel(c - b, d - a);
+	}
+
+	//two times two neighbouring sides have the same lengths
+	bool isDeltoid() {
+		double aside = diagonPow2(a - b);
+		double bside = diagonPow2(b - c);
+		double cside = diagonPow2(c - d);
+		double dside = diagonPow2(d - a);
+
+		return ((aside == bside) && (cside == dside))
+			|| ((bside == cside) && (dside == aside));
+	}
+
+	char Qualification() {
+		if (isDepraved()) {
+			return 'E';
+		}
+		if (isSelfcutting()) {
+			return 'M';
+		}
+		if (isSquare()) {
+			return 'N';
+		}
+		if (isRectangular()) {
+			return 'T';
+		}
+		if (isRhombus()) {
+			return 'R';
+		}
+		if (isParallelogram()) {
+			return 'P';
+		}
+		if (isTrapeze()) {
+			return 'Z';
+		}
+		if (isDeltoid()) {
+			return 'D';
+		}
+		return 'L';
+	}
 };
-
-bool isDepraved(Tetragon& t) {
-	if (t.a == t.b || t.b == t.c || t.c == t.d || t.d == t.a) {
-		return true;
-	}
-	t.ga = t.a.y - t.b.y;
-	t.ga /= t.a.x - t.b.x;
-	if (t.ga > -std::numeric_limits<double>::min() && t.ga < std::numeric_limits<double>::min()) {
-		t.ga = 0;
-	}
-	if (t.ga == -std::numeric_limits<double>::infinity()) {
-		t.ga = -t.ga;
-	}
-	t.gb = t.b.y - t.c.y;
-	t.gb /= t.b.x - t.c.x;
-	if (t.gb > -std::numeric_limits<double>::min() && t.gb < std::numeric_limits<double>::min()) {
-		t.gb = 0;
-	}
-	if (t.gb == -std::numeric_limits<double>::infinity()) {
-		t.gb = -t.gb;
-	}
-	if (t.ga == t.gb) {
-		return true;
-	}
-	t.gc = t.c.y - t.d.y;
-	t.gc /= t.c.x - t.d.x;
-	if (t.gc > -std::numeric_limits<double>::min() && t.gc < std::numeric_limits<double>::min()) {
-		t.gc = 0;
-	}
-	if (t.gc == -std::numeric_limits<double>::infinity()) {
-		t.gc = -t.gc;
-	}
-	if (t.gb == t.gc) {
-		return true;
-	}
-	t.gd = t.d.y - t.a.y;
-	t.gd /= t.d.x - t.a.x;
-	if (t.gd > -std::numeric_limits<double>::min() && t.gd < std::numeric_limits<double>::min()) {
-		t.gd = 0;
-	}
-	if (t.gd == -std::numeric_limits<double>::infinity()) {
-		t.gd = -t.gd;
-	}
-	if (t.gc == t.gd || t.gd == t.ga) {
-		return true;
-	}
-	return false;
-}
-
-bool isSelfcutting(Tetragon& t) {
-	bool onOneSide = false;
-	double ge = (double)(t.c.y - t.a.y) / (t.c.x - t.a.x);
-	double ce = t.a.y - ge * t.a.x;
-	if (ge == std::numeric_limits<double>::infinity() || ge == -std::numeric_limits<double>::infinity()) {
-		onOneSide = ((t.b.x > t.a.x && t.d.x > t.a.x) || (t.b.x < t.a.x && t.d.x < t.a.x));
-	}
-	else if (ge > -std::numeric_limits<double>::min() && ge < std::numeric_limits<double>::min()) {
-		onOneSide = ((t.b.y > t.a.y && t.d.y > t.a.y) || (t.b.y < t.a.y && t.d.y < t.a.y));
-	}
-	else {
-		onOneSide = (ge * t.b.x + ce > t.b.y && ge * t.d.x + ce > t.d.y) || (ge * t.b.x + ce < t.b.y && ge * t.d.x + ce < t.d.y);
-	}
-	double gf = (double)(t.d.y - t.b.y) / (t.d.x - t.b.x);
-	if (gf == std::numeric_limits<double>::infinity() || gf == -std::numeric_limits<double>::infinity()) {
-		return onOneSide && ((t.c.x > t.b.x && t.a.x > t.b.x) || (t.c.x < t.b.x && t.a.x < t.b.x));
-	}
-	else if (gf > -std::numeric_limits<double>::min() && gf < std::numeric_limits<double>::min()) {
-		return onOneSide && ((t.c.y > t.b.y && t.a.y > t.b.y) || (t.c.y < t.b.y && t.a.y < t.b.y));
-	}
-	double cf = t.b.y - gf * t.b.x;
-	return onOneSide && (gf * t.c.x + cf > t.c.y && gf * t.a.x + cf > t.a.y) || (gf * t.c.x + cf < t.c.y && gf * t.a.x + cf < t.a.y);
-}
-
-bool isSquare(Tetragon& t) {
-	if (t.ga != t.gc || t.gb != t.gd) {
-		return false;
-	}
-	t.gbp = t.c.x - t.b.x;
-	t.gbp /= t.b.y - t.c.y;
-	if (t.gbp > -std::numeric_limits<double>::min() && t.gbp < std::numeric_limits<double>::min()) {
-		t.gbp = 0;
-	}
-	if (t.gbp == -std::numeric_limits<double>::infinity()) {
-		t.gbp = -t.gbp;
-	}
-	if (t.ga != t.gbp) {
-		return false;
-	}
-
-	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
-	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
-	return t.la == t.lb;
-}
-
-bool isRectangular(Tetragon& t) {
-	return t.ga == t.gc && t.gb == t.gd && t.ga == t.gbp;
-}
-
-bool isRhombus(Tetragon& t) {
-	t.la = hypot(abs(t.a.x - t.b.x), abs(t.a.y - t.b.y));
-	t.lb = hypot(abs(t.b.x - t.c.x), abs(t.b.y - t.c.y));
-	if (t.la != t.lb) {
-		return false;
-	}
-	t.lc = sqrt(pow(t.c.x - t.d.x, 2) + pow(t.c.y - t.d.y, 2));
-	if (t.la != t.lc) {
-		return false;
-	}
-	t.ld = hypot(abs(t.d.x - t.a.x), abs(t.d.y - t.a.y));
-	return t.la == t.ld;
-}
-
-bool isParallelogram(Tetragon& t) {
-	return t.ga == t.gc && t.gb == t.gd;
-}
-
-bool isTrapeze(Tetragon& t) {
-	return t.ga == t.gc || t.gb == t.gd;
-}
-
-bool isDeltoid(Tetragon& t) {
-	t.lc = sqrt(pow(t.c.x - t.d.x, 2) + pow(t.c.y - t.d.y, 2));
-	t.ld = hypot(abs(t.d.x - t.a.x), abs(t.d.y - t.a.y));
-	return (t.la == t.lb && t.lc == t.ld) || (t.lb == t.lc && t.ld == t.la);
-}
 
 int main() {
 	using namespace std;
 
 	for (char fileCounter = '1'; fileCounter <= '5'; ++fileCounter) {
-		string filename("negyszog.pelda");
+		std::string filename("negyszog");
 		filename += fileCounter;
 		filename += ".in.txt";
 
-		ifstream fi{ filename };
+		std::ifstream fi{ filename };
 		if (!fi.is_open()) {
 			std::cout << filename << "    <--- Nem nyilt meg!" << std::endl;
 			continue;
 		}
 		auto startTime = std::chrono::system_clock::now();
 
-		Point a{ 0,0 };
-		Point b{ 0,0 };
-		Point c{ 0,0 };
-		Point d{ 0,0 };
+		Point a{};
+		Point b{};
+		Point c{};
+		Point d{};
 		Tetragon t{ a,b,c,d };
 		std::string qualifications{};
 		while (fi >> t.a.x >> t.a.y >> t.b.x >> t.b.y >> t.c.x >> t.c.y >> t.d.x >> t.d.y) {
-			if (isDepraved(t)) {
-				qualifications += 'E';
-			}
-			else if (isSelfcutting(t)) {
-				qualifications += 'M';
-			}
-			else if (isSquare(t)) {
-				qualifications += 'N';
-			}
-			else if (isRectangular(t)) {
-				qualifications += 'T';
-			}
-			else if (isRhombus(t)) {
-				qualifications += 'R';
-			}
-			else if (isParallelogram(t)) {
-				qualifications += 'P';
-			}
-			else if (isTrapeze(t)) {
-				qualifications += 'Z';
-			}
-			else if (isDeltoid(t)) {
-				qualifications += 'D';
-			}
-			else {
-				qualifications += 'L';
-			}
+			qualifications += t.Qualification();
 		}
 		fi.close();
 
-		std::cout << fileCounter << ": " << qualifications;
-		std::cout << "    (futasi ido:" << std::setw(7) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
+		filename = "negyszog";
+		filename += fileCounter;
+		filename += ".out.txt";
+		std::ofstream fs{ filename };
+		if (fs) {
+			fs << qualifications;
+			fs.close();
+		}
+
+		std::cout << fileCounter << ": " << std::hash<std::string>{}(qualifications);
+		std::cout << " (futasi ido:" << std::setw(7) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)" << endl;
 		std::cout << endl;
 	}
 	return 0;
