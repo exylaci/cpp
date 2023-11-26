@@ -45,43 +45,39 @@ std::vector<int> loadNumbers(char fileCounter) {
 
 //With dinamic programming, lets use the cookes from i to select into them to 2 groups and using
 // for loop to select the closest numer to half weight.
-std::vector<bool> selectNums(std::vector<int>& nums) {
-	std::vector<bool> cache{};
-	std::vector<bool> prevCache{};
-
-	auto sumOfNums = std::accumulate(nums.begin(), nums.end(), 0L);
-	bool intoGroupA;
-	int num;
-
-	for (int startIndex = nums.size(); startIndex > -1; --startIndex) {
-		for (long sum{ 0 }; sum <= sumOfNums; ++sum) {
-			if (startIndex >= nums.size()) {
-				intoGroupA = (sum == 0);
-			}
-			else {
-				num = nums.at(startIndex);
-				intoGroupA = (sum >= num && prevCache.at(sum - num)) || prevCache.at(sum);
-			}
-			cache.push_back(intoGroupA);
-		}
-		prevCache.swap(cache);
-		cache.clear();
-		cache.reserve(sumOfNums + 1);
+void selectNums(long sumOfNums, bool* sums, std::vector<int>& nums) {
+	for (long i{ 0 }; i <= sumOfNums / 2; ++i) {
+		sums[i] = false;
 	}
-	return prevCache;
+
+	long total{ 0 };
+	for (const auto& num : nums) {
+		for (long i{ total }; i > 0; --i) {
+			if (sums[i] && i + num <= sumOfNums / 2) {
+				sums[i + num] = true;
+			}
+		}
+		if (num <= sumOfNums / 2) {
+			sums[num] = true;
+		}
+		total += num;
+		total = std::min(total, sumOfNums / 2);
+	}
 }
-long calculateDifference(std::vector<int>& nums){
-	auto cache = selectNums(nums);
+long calculateDifference(std::vector<int>& nums) {
+	auto sumOfNums = std::accumulate(nums.begin(), nums.end(), 0L);
+	bool* sums = new bool[sumOfNums / 2 + 1];
 
-	long difference{ 0 };
-	auto s = std::accumulate(nums.begin(), nums.end(), 0L);
-	for (int i{ s / 2 }; i > 0; --i) {
-		if (cache.at(i)) {
-			difference = abs(i - (s - i));
-			break;
+	selectNums(sumOfNums, sums, nums);
+
+	for (long i{ sumOfNums / 2 }; i >= 0; --i) {
+		if (sums[i]) {
+			delete[] sums;
+			return  (sumOfNums / 2 - i) * 2 + sumOfNums % 2;
 		}
 	}
-	return difference;
+	delete[] sums;
+	return nums.at(0);
 }
 
 int main() {
@@ -93,7 +89,7 @@ int main() {
 			auto difference = calculateDifference(nums);
 
 			std::cout << fileCounter << ":" << std::setw(4) << abs(difference);
-			std::cout << "    (futasi ido:" << std::setw(4) << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - startTime).count() << " sec)";
+			std::cout << "    (futasi ido:" << std::setw(4) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << " millisec)";
 			std::cout << std::endl;
 		}
 	}
