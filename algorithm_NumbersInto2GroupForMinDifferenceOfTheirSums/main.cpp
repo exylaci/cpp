@@ -46,22 +46,21 @@ std::vector<int> loadNumbers(char fileCounter) {
 //With dinamic programming, lets use the cookes from i to select into them to 2 groups and using
 // for loop to select the closest numer to half weight.
 void selectNums(long sumOfNums, bool* sums, std::vector<int>& nums) {
-	for (long i{ 0 }; i <= sumOfNums / 2; ++i) {
+	long halfOfSums{ sumOfNums / 2 };
+	for (long i{ 0 }; i <= halfOfSums; ++i) {
 		sums[i] = false;
 	}
+	sums[0] = true;
 
 	long total{ 0 };
 	for (const auto& num : nums) {
-		for (long i{ total }; i > 0; --i) {
-			if (sums[i] && i + num <= sumOfNums / 2) {
+		total = std::min(total, halfOfSums-num);
+		for (long i{ total }; i >= 0; --i) {
+			if (sums[i]) {
 				sums[i + num] = true;
 			}
 		}
-		if (num <= sumOfNums / 2) {
-			sums[num] = true;
-		}
 		total += num;
-		total = std::min(total, sumOfNums / 2);
 	}
 }
 long calculateDifference(std::vector<int>& nums) {
@@ -76,8 +75,7 @@ long calculateDifference(std::vector<int>& nums) {
 			return  (sumOfNums / 2 - i) * 2 + sumOfNums % 2;
 		}
 	}
-	delete[] sums;
-	return nums.at(0);
+	return 0;
 }
 
 int main() {
