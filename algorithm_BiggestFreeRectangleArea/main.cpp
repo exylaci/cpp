@@ -8,7 +8,13 @@ int main() {
 		auto fileName = prepareFileName(fileCounter);
 		auto fi = openFile(fileName);
 
-		std::cout << fileCounter << ": " << std::endl;
+		int width;
+		int height;
+		fi >> width >> height;
+		auto t = allocateArray(width, height);
+
+		std::cout << fileCounter << ": " << width << "x" << height << std::endl;
+		releaseArray(width, t);
 	}
 }
 
@@ -28,4 +34,23 @@ std::ifstream openFile(std::string& fileName)
 		std::cout << fileName << "    <--- Baj van! Nem nyilt meg." << std::endl;
 	}
 	return fi;
+}
+
+//2D array, memory allocation in heap
+int** allocateArray(const int& width, const int& height) {
+	//one-one unit bigger array for simplier if conditions
+	int** arr = new int* [width + 1];
+	for (int i = 0; i <= width; ++i) {
+		int* tmp = new int[height + 1];
+		arr[i] = tmp;
+	}
+	return arr;
+}
+
+//2D array, memory release
+void releaseArray(const int& width, int** arr) {
+	for (int i = 0; i <= width; ++i) {
+		delete[] arr[i];
+	}
+	delete[] arr;
 }
