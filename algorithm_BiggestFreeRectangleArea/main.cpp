@@ -4,7 +4,7 @@
 #include "main.h"
 
 int main() {
-	for (char fileCounter{ '1' }; fileCounter <= '4'; ++fileCounter) {
+	for (char fileCounter{ '0' }; fileCounter <= '4'; ++fileCounter) {
 		auto fileName = prepareFileName(fileCounter);
 		auto fi = openFile(fileName);
 
@@ -17,7 +17,9 @@ int main() {
 		loadAndPutAllRectangle(fi, t);
 		fi.close();
 
-		std::cout << fileCounter << ": " << width << "x" << height << std::endl;
+		auto freeSize = findBiggestAreea(width, height, t);
+		std::cout << fileCounter << ": " << freeSize << std::endl;
+
 		releaseArray(width, t);
 	}
 }
@@ -74,9 +76,51 @@ void loadAndPutAllRectangle(std::ifstream& fi, int** t) {
 	int w;
 	int h;
 	while (fi >> x >> y >> w >> h) {
-		for (int a = 0; a < h; ++a)
-			for (int b = 0; b < w; ++b) {
-				t[b + x][a + y] = 0;
-			}
+		storeToTheArray(x, y, w, h, t);
 	}
+}
+
+//draw one rectangle into the array
+void storeToTheArray(const int& x, const int& y, const int& w, const int& h, int** t) {
+	for (int a = 0; a < h; ++a)
+		for (int b = 0; b < w; ++b) {
+			t[b + x][a + y] = 0;
+		}
+}
+
+int findBiggestAreea(const int& width, const int& height, int** t) {
+	int maxSize{ 0 };
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
+			incrementHeightValueBelow(y, height, t[x]);
+			if (t[x][y] != 0 && (y + 1 == height || t[x][y + 1] == 0)) {
+				auto leftSize = findLeftEdge(x, y, t);
+				auto rightSize = findRightEdge(x, y, width, t);
+				auto freeRectangleSize = t[x][y] * (rightSize + leftSize - 1);
+				maxSize = std::max(maxSize, freeRectangleSize);
+			}
+		}
+	}
+	return maxSize;
+}
+
+//increment the height values in the next line below
+void incrementHeightValueBelow(const int& y, const int& height, int* oneColumn) {
+	if (y < height - 1 && oneColumn[y + 1]>0) {
+		oneColumn[y + 1] = oneColumn[y] + 1;
+	}
+}
+
+//find the right edge (where the height value is smaler than the current one)
+int findRightEdge(const int& x, const int& y, const int& width, int** t) {
+	int vege{ 0 };
+	while (x + vege < width && t[x][y] <= t[x + vege][y]) ++vege;
+	return vege;
+}
+
+//find the left edge (where the height value is smaler than the current one)
+int findLeftEdge(const int& x, const int& y, int** t) {
+	int eleje{ 0 };
+	while (x - eleje >= 0 && t[x - eleje][y] >= t[x][y]) ++eleje;
+	return eleje;
 }
