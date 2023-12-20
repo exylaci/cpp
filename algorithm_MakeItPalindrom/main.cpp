@@ -1,6 +1,7 @@
 #include <iostream>
 #include "color_lists_inputs.cpp.inc"
 #include <vector>
+#include <map>
 
 //Count the differences as it vould be a palindrom.
 int task1(std::vector<int> test_case) {
@@ -13,9 +14,30 @@ int task1(std::vector<int> test_case) {
 	return counter;
 }
 
+//recursively find the longest palindrome subsequence accelerate by memoization
+int longestSubSequence(std::vector<int> test_case, int first, int last, std::map<std::tuple<int, int>, int>& memo) {
+	if (first == last) {
+		return 1;
+	}
+	if (first + 1 == last) {
+		return test_case[first] == test_case[last] ? 2 : 1;
+	}
+	if (memo.find({ first, last }) == memo.end()) {
+		auto leftPart = longestSubSequence(test_case, first, last - 1, memo);
+		auto rightPart = longestSubSequence(test_case, first + 1, last, memo);
+		auto result = std::max(leftPart, rightPart);
+		if (test_case[first] == test_case[last]) {
+			auto middlePart = longestSubSequence(test_case, first + 1, last - 1, memo) + 2;
+			result = std::max(result, middlePart);
+		}
+		memo[{first, last}] = result;
+	}
+	return memo[{first, last}];
+}
+
 int task2(std::vector<int> test_case) {
-	// TODO: Task 2 solution here
-	return 0;
+	std::map<std::tuple<int, int>, int> memo = {};
+	return test_case.size() - longestSubSequence(test_case, 0, test_case.size() - 1, memo);
 }
 
 //Count the difference from the beginnig or end, the fewer ones.
