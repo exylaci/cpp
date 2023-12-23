@@ -1,0 +1,9 @@
+1.feladat:
+249
+246
+
+2.feladat:
+8958
+8979
+
+A leíras nem specifikálta külön, hogy egy önmagában palindrom számot el kell-e kezdeni iterálni vagy sem.
