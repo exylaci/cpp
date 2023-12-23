@@ -15,6 +15,9 @@ public:
 	BigInt(string&);
 	BigInt(const char*);
 	BigInt(BigInt&);
+	BigInt(const BigInt& b);	//copy constructor
+	BigInt(BigInt&& b);			//move constructor
+	~BigInt() {}				//destructor
 
 	//Helper Functions:
 	friend void divide_by_2(BigInt& a);
@@ -101,6 +104,12 @@ BigInt::BigInt(const char* s) {
 }
 BigInt::BigInt(BigInt& a) {
 	digits = a.digits;
+}
+BigInt::BigInt(const BigInt& b) {
+	digits = b.digits;
+}
+BigInt::BigInt(BigInt&& b) {
+	digits = b.digits; b.digits = nullptr;
 }
 
 bool Null(const BigInt& a) {
