@@ -2,35 +2,51 @@
 #include "main.h"
 
 int main() {
-	std::cout << task1(10'000) << std::endl;
+	std::cout << task1(10000) << std::endl;
 	std::cout << task2(200) << std::endl;
 }
 
 //Count the pieces of the Lychrel numbers less than lastNumber
 int task1(int lastNumber) {
 	int counter{ 0 };
-	for (int i{ 1 }; i < lastNumber; ++i) {
-		int iterates{ 0 };
-		long inspected{ i };
-		do {
-			if (isItPalindrom(i)) {
-				++counter;
-				break;
-			}
-			inspected += reverse(inspected);
-			++iterates;
-		} while (i <= MAXITERATION);
+	for (unsigned int i{ 1 }; i < lastNumber; ++i) {
+		if (isItLychrelNumber(i)) {
+			++counter;
+		}
 	}
 	return counter;
 }
 //Which one is the <<n>>th Lychrel number
 int task2(int numero) { return -1; }
 
+//dedcide whether a number is Lychrel or not
+bool isItLychrelNumber(BigInt inspected) {
+	int iterations{ 0 };
+	do {
+		if (isItPalindrom(inspected)) {
+			return false;
+		}
+		inspected += reverse(inspected);
+		++iterations;
+	} while (iterations <= MAXITERATION);
+	return true;
+}
 //decide whether the number is Palindrom or not
-bool isItPalindrom(int number) {
+bool isItPalindrom(BigInt& number) {
+	auto s{ toString(number) };
+	for (int i{ 0 }; i < s.length() / 2; ++i) {
+		if (s[i] != s[s.length() - 1 - i]) {
+			return false;
+		}
+	}
 	return true;
 }
 //give back in reverse order of number's digits
-long reverse(long number) {
-	return -1;
+BigInt reverse(BigInt& number) {
+	auto s{ toString(number) };
+	std::string reverse{ "" };
+	for (int i = s.length() - 1; i >= 0; --i) {
+		reverse += s[i];
+	}
+	return reverse;
 }
