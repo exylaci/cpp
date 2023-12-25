@@ -72,6 +72,9 @@ public:
 	friend ostream& operator<<(ostream&, const BigInt&);
 	friend istream& operator>>(istream&, BigInt&);
 
+	//Transformation
+	friend std::string toString(const BigInt& a);
+
 	//Others
 	friend BigInt NthCatalan(int n);
 	friend BigInt NthFibonacci(int n);
@@ -448,6 +451,13 @@ ostream& operator<<(ostream& out, const BigInt& a) {
 	for (int i = a.digits.size() - 1; i >= 0; i--)
 		cout << (short)a.digits[i];
 	return cout;
+}
+
+std::string toString(const BigInt& a) {
+	std::string result = "";
+	for (int i = a.digits.size() - 1; i >= 0; i--)
+		result += (short)a.digits[i] + 48;
+	return result;
 }
 
 //Driver code with some examples
