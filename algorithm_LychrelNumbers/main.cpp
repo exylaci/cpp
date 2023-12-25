@@ -2,7 +2,7 @@
 #include "main.h"
 
 int main() {
-	std::cout << task1(10000) << std::endl;
+	std::cout << task1(10'000) << std::endl;
 	std::cout << task2(200) << std::endl;
 }
 
@@ -17,7 +17,16 @@ int task1(int lastNumber) {
 	return counter;
 }
 //Which one is the <<n>>th Lychrel number
-int task2(int numero) { return -1; }
+int task2(int searched) {
+	int counter{ 0 };
+	int currentNumber{ 0 };
+	while(counter<searched) {
+		if (isItLychrelNumber(++currentNumber)) {
+			++counter;
+		}
+	}
+	return currentNumber;
+}
 
 //dedcide whether a number is Lychrel or not
 bool isItLychrelNumber(BigInt inspected) {
