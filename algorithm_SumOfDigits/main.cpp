@@ -2,13 +2,13 @@
 #include <iostream>
 
 int main() {
-	for (char fileCounter{ '0' }; fileCounter <= '7'; ++fileCounter) {
+	for (char fileCounter{ '0' }; fileCounter <= '8'; ++fileCounter) {
 		std::string first;
 		std::string last;
 		int sum;
 		loadDataFromInputfile(fileCounter, first, last, sum);
 		auto resoult{ findTheNumber(first,last, sum) };
-		printResoult(fileCounter, resoult, last);
+		printResoult(fileCounter, resoult);
 	}
 }
 
@@ -43,15 +43,17 @@ std::ifstream openFile(const std::string& filename) {
 	return fileHandler;
 }
 
-//find the the first number that is greather than the <<first>> and the sum of its digit is equal to <<sum>>
-std::string findTheNumber(std::string& first, std::string& last, const int& sum) {
+//find the the first number that is equal to or greather than the <<first>>
+// and less then or equal to the <<last>> 
+// and the sum of its digit is equal to <<sum>>
+std::string findTheNumber(std::string& first, std::string& last, int sum) {
 	auto differences{ calculateDifference(sumOfDigits(first), sum) };
 	std::string resoult{};
 	if (differences < 0) {
-		resoult = sumIsLess(first, differences);
+		resoult = sumIsLess(first, differences, sum);
 	}
 	else {
-		resoult = sumIsGreather(first, differences);
+		resoult = sumIsGreater(first, differences);
 	}
 	return validateResoult(resoult, last);
 }
@@ -68,7 +70,7 @@ int calculateDifference(int one, int two) {
 	return two - one;
 }
 //sum is greather -> last digits should be increased 
-const std::string& sumIsGreather(std::string& numberString, int& differences) {
+const std::string& sumIsGreater(std::string& numberString, int differences) {
 	int index = numberString.length();
 	while (differences > 0) {
 		if (--index < 0) {
@@ -88,23 +90,50 @@ const std::string& sumIsGreather(std::string& numberString, int& differences) {
 }
 
 //sum is less -> last digits should be decreased 
-std::string sumIsLess(std::string& numberString, int& differences) {
-	return "0";
+std::string sumIsLess(std::string& numberString, int differences, int sum) {
+	replaceLastDigitsToZero(numberString, differences);
+	auto newDifferences = calculateDifference(sumOfDigits(numberString), sum);
+	return sumIsGreater(numberString, newDifferences);
+}
+//replace the last digits with '0' while the sum of the remaining ones isn't less than the requested sum
+void replaceLastDigitsToZero(std::string& numberString, int differences) {
+	int index = numberString.length() - 1;
+	while (differences <= 0) {
+		auto diff = numberString[index] - '0';
+		numberString[index] = '0';
+		differences += diff;
+		if (--index < 0) {
+			break;
+		}
+	}
+	numberString = incrementByOneAtIndex(numberString, index);
+}
+//increase the digit at index and in front of ones if there is any carry
+std::string incrementByOneAtIndex(std::string& numberString, int index) {
+	if (index < 0) {
+		return '1' + numberString;
+	}
+	if (numberString[index] == '9') {
+		numberString[index] = '0';
+		return incrementByOneAtIndex(numberString, index - 1);
+	}
+	++numberString[index];
+	return numberString;
 }
 
-//check whether the resoult is greather than the secound input number
+//check whether the resoult greather than the second input number
 std::string validateResoult(std::string& resoult, std::string& last) {
 	if (isItGreater(resoult, last)) {
 		return "NINCS";
 	}
 	return resoult;
 }
-//check whether the resoult is greather than the secound input number
+//check whether the first parameter is greather than the second parameter
 bool isItGreater(const BigInt one, const BigInt two) {
 	return one > two;
 }
 //print out the resoult
-void printResoult(const char& fileCounter, const std::string& resoult, const std::string& last) {
+void printResoult(const char& fileCounter, const std::string& resoult) {
 	std::cout
 		<< fileCounter << ": "
 		<< resoult
