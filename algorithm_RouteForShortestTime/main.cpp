@@ -26,42 +26,53 @@ void closeInputFile(std::ifstream& fileHandler) {
 	fileHandler.close();
 }
 //load every schedules
-std::vector<std::map<char, int>> loadSchedules(std::ifstream& fileHandler) {
-	std::vector<std::map<char, int>> resoult{};
-	do {
-		auto oneSchedule = loadOneShedule(fileHandler);
-		if (oneSchedule.size() > 0) {
-			resoult.emplace_back(oneSchedule);
-		}
-		else {
-			return resoult;
-		}
-	} while (true);
-}
-//load the schedule of one bus
-std::map<char, int> loadOneShedule(std::ifstream& fileHandler) {
-	std::map<char, int> resoult{};
+std::map<char, std::map<char, int>> loadSchedules(std::ifstream& fileHandler) {
+	std::map<char, std::map<char, int>> schedules{};
 	char tmp;
 	char stop;
 	int distance;
+	char previousStop{ ' ' };
+	int previousDistance{ 0 };
 	fileHandler >> tmp;
 	while (fileHandler >> tmp >> tmp >> stop >> tmp >> tmp >> distance >> tmp >> tmp) {
-		resoult.emplace(stop, distance);
+		if (previousStop != ' ') {
+			auto oneHop = std::make_pair(stop, distance - previousDistance);
+			storeOneHop(schedules, previousStop, oneHop);
+		}
+		previousStop = stop;
+		previousDistance = distance;
+
 		if (tmp == '}') {
-			return resoult;
+			previousStop = ' ';
+			previousDistance = 0;
+			if (!(fileHandler >> tmp)) {
+				break;
+			}
 		}
 	}
-	return resoult;
+	return schedules;
+}
+void storeOneHop(std::map<char, std::map<char, int>>& schedules, char& previousStop, std::pair<char, int>& oneHop) {
+	auto found = schedules.find(previousStop);
+	if (found == schedules.end()) {
+		schedules.insert(std::make_pair(previousStop, std::map<char, int> {oneHop }));
+	}
+	else {
+		auto storedHop = (*found).second.find(oneHop.first);
+		if (storedHop == (*found).second.end() || (*storedHop).second < oneHop.second) {
+			(*found).second.insert(oneHop);
+		}
+	}
 }
 
 void setFontCodePage() {
 	SetConsoleOutputCP(1250);
 }
 
-int fastestRoute(std::vector<std::map<char, int>>& schedules, char departure, char destination) {
+int fastestRoute(std::map<char, std::map<char, int>>& schedules, char departure, char destination) {
 	return -1;
 }
-int shortestRoute(std::vector<std::map<char, int>>& schedules, char departure, char destination) {
+int shortestRoute(std::map<char, std::map<char, int>>& schedules, char departure, char destination) {
 	return -1;
 }
 
