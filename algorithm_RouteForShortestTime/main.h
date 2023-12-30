@@ -13,5 +13,8 @@ void storeOneHop(std::map<char, std::map<char, int>>& schedules, char& previousS
 
 void setFontCodePage();
 
-int fastestRoute(std::map<char, std::map<char, int>>& schedules, char departure, char destination);
-int shortestRoute(std::map<char, std::map<char, int>>& schedules, char departure, char destination);
+void question(std::map<char, std::map<char, int>>& schedules, char departure, char destination);
+std::pair<int, int> findFastestRoute(std::map<char, std::map<char, int>>& schedules, char departure, char destination);
+bool recalculatingRoute(std::map<char, std::map<char, int>>& schedules, std::pair<const char, std::pair<int, int>>& route, std::map<char, std::pair<int, int>>& routes, char destination);
+bool addToRoutesStopsFromThisStop(std::map<char, std::map<char, int>>::iterator& hops, std::pair<const char, std::pair<int, int>>& route, std::map<char, std::pair<int, int>>& routes);
+bool updateRoutingTable(std::map<char, std::pair<int, int>>::iterator& it, std::map<char, std::pair<int, int>>& routes, std::pair<char, std::pair<int, int>>& newValue);
