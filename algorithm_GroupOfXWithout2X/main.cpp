@@ -3,7 +3,7 @@
 
 int main() {
 	for (char fileCounter{ '1' }; fileCounter <= '5'; ++fileCounter) {
-		int last;
+		std::string last;
 		loadDataFromInputfile(fileCounter, last);
 		auto resoult = countNumbers(last);
 		printResoult(fileCounter, resoult);
@@ -11,7 +11,7 @@ int main() {
 }
 
 //load maximum data from input files
-void loadDataFromInputfile(char order, int& last) {
+void loadDataFromInputfile(char order, std::string& last) {
 	auto fileHandler = openInputFile(order);
 	if (fileHandler) {
 		fileHandler >> last;
@@ -42,15 +42,15 @@ std::ifstream openFile(const std::string& filename) {
 }
 
 //count numbers fullfil conditions
-long long countNumbers(int last) {
-	long long pieces{ 0 };
-	for (int n = 0; last >= pow(2, 2 * n); ++n) {
-		pieces += (last + pow(2, 2 * n)) / pow(2, 2 * n + 1);
+BigInt countNumbers(BigInt last) {
+	BigInt pieces{ "0" };
+	for (int n = 0; last >= power(2, 2 * n); ++n) {
+		pieces += (last + power(2, 2 * n)) / power(2, 2 * n + 1);
 	}
 	return pieces;
 }
 
 //printout resoult on standard output
-void printResoult(char fileCounter, int resoult) {
+void printResoult(char fileCounter, BigInt resoult) {
 	std::cout << fileCounter << ": " << resoult << std::endl;
 }
