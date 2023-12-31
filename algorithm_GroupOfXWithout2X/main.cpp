@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-	for (char fileCounter{ '1' }; fileCounter <= '2'; ++fileCounter) {
+	for (char fileCounter{ '1' }; fileCounter <= '5'; ++fileCounter) {
 		int last;
 		loadDataFromInputfile(fileCounter, last);
 		auto resoult = countNumbers(last);
@@ -42,8 +42,12 @@ std::ifstream openFile(const std::string& filename) {
 }
 
 //count numbers fullfil conditions
-int countNumbers(int last) {
-	return -1;
+long long countNumbers(int last) {
+	long long pieces{ 0 };
+	for (int n = 0; last >= pow(2, 2 * n); ++n) {
+		pieces += (last + pow(2, 2 * n)) / pow(2, 2 * n + 1);
+	}
+	return pieces;
 }
 
 //printout resoult on standard output
