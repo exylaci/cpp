@@ -79,6 +79,7 @@ public:
 	friend BigInt NthCatalan(int n);
 	friend BigInt NthFibonacci(int n);
 	friend BigInt Factorial(int n);
+	friend BigInt power(int base, int exponent);
 };
 
 BigInt::BigInt(string& s) {
@@ -433,6 +434,14 @@ BigInt Factorial(int n) {
 	for (int i = 2; i <= n; i++)
 		f *= i;
 	return f;
+}
+
+BigInt power(int base, int exponent) {
+	BigInt resoult{ 1 };
+	for (int n = 0; n < exponent; ++n) {
+		resoult *= base;
+	}
+	return resoult;
 }
 
 istream& operator>>(istream& in, BigInt& a) {
