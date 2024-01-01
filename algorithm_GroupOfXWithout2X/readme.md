@@ -12,4 +12,4 @@ The maximum amount of the numbers can be in the set in case of the given maximum
 ## Example:  
 Input: `5`  
 Output: `4`
-These 4 pieces positive integer numbers can be in this set: `1,2,3,5`  
+These 4 pieces positive integer numbers can be in this set: `1,3,4,5`  
