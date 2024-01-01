@@ -10,3 +10,9 @@ std::string prepareFileName(char order);
 std::ifstream openFile(const std::string& filename);
 std::vector<std::pair<int, int>> loadDataFromFile(std::ifstream& fileHandler);
 void closeFile(std::ifstream& fileHandler);
+
+int calculate(std::vector<std::pair<int, int>>& dots);
+std::pair<int, int> calculateMedianX(std::vector<std::pair<int, int>>& dots);
+std::pair<int, int> calculateMedianY(std::vector<std::pair<int, int>>& dots);
+int checkMedianPoints(std::vector<std::pair<int, int>>& dots, std::pair<int, int>& medianx, std::pair<int, int>& mediany);
+bool isItOccupied(std::vector<std::pair<int, int>>& dots, int x, int y);
