@@ -3,7 +3,7 @@
 #include <algorithm> 
 
 int main() {
-	for (char fileCounter{ '1' }; fileCounter <= '5'; ++fileCounter) {
+	for (char fileCounter{ '1' }; fileCounter <= '7'; ++fileCounter) {
 		auto coordinates = getInputData(fileCounter);
 		if (coordinates.size() > 0) {
 			auto resoult = calculate(coordinates);
@@ -59,6 +59,9 @@ std::pair<long long, int> calculate(std::vector<std::pair<int, int>>& dots) {
 	std::pair<int, int> medianX = calculateMedianX(dots);
 	std::pair<int, int> medianY = calculateMedianY(dots);
 	auto pieces = checkMedianPoints(dots, medianX, medianY);
+	if (pieces == 0) {
+		return inExtendedArea(dots, medianX, medianY);
+	}
 	auto distances = calculateDistances(dots, medianX.first, medianY.first);
 	return std::pair<long long, int>(distances, pieces);
 }
@@ -79,10 +82,10 @@ std::pair<int, int> calculateMedianY(std::vector<std::pair<int, int>>& dots) {
 	return std::make_pair(m1, m2);
 }
 //exclude the occupied points
-int checkMedianPoints(std::vector<std::pair<int, int>>& dots, std::pair<int, int>& medianx, std::pair<int, int>& mediany) {
+int checkMedianPoints(std::vector<std::pair<int, int>>& dots, std::pair<int, int>& medianX, std::pair<int, int>& medianY) {
 	int pieces{ 0 };
-	for (int x = medianx.first; x <= medianx.second; ++x) {
-		for (int y = mediany.first; y <= mediany.second; ++y) {
+	for (int x = medianX.first; x <= medianX.second; ++x) {
+		for (int y = medianY.first; y <= medianY.second; ++y) {
 			if (std::find(dots.begin(), dots.end(), std::pair<int, int>(x, y)) == dots.end()) {
 				++pieces;
 			}
@@ -98,6 +101,38 @@ long long calculateDistances(std::vector<std::pair<int, int>>& dots, int x, int 
 		resoult += abs(dot.second - y);
 	}
 	return resoult;
+}
+//every median point is occupied -> bruteforce checking the one step outer area
+std::pair<long long, int> inExtendedArea(std::vector<std::pair<int, int>>& dots, std::pair<int, int>& medianX, std::pair<int, int>& medianY) {
+	long long minDistances{ LLONG_MAX };
+	int pieces{ 0 };
+	--medianX.first;
+	++medianX.second;
+	--medianY.first;
+	++medianY.second;
+	for (int x = medianX.first; x <= medianX.second; ++x) {
+		checkThisPoint(dots, minDistances, pieces, x, medianY.first);
+		checkThisPoint(dots, minDistances, pieces, x, medianY.second);
+	}
+	for (int y = medianY.first; y <= medianY.second; ++y) {
+		checkThisPoint(dots, minDistances, pieces, medianX.first, y);
+		checkThisPoint(dots, minDistances, pieces, medianX.second, y);
+	}
+	return 	std::make_pair(minDistances, pieces);
+}
+//check the recalculated distances from this point and store it if it is less 
+//than the previously calculated ones and also set the pieces of minimum distances
+void checkThisPoint(std::vector<std::pair<int, int>>& dots, long long& minDistances, int& pieces, int x, int y) {
+	if (std::find(dots.begin(), dots.end(), std::pair<int, int>(x, y)) == dots.end()) {
+		long long distances = calculateDistances(dots, x, y);
+		if (distances < minDistances) {
+			minDistances = distances;
+			pieces = 1;
+		}
+		else if (minDistances == distances) {
+			++pieces;
+		}
+	}
 }
 
 //print out the resoult to the standard output
