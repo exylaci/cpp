@@ -1,13 +1,14 @@
 #include "main.h"
 #include <iostream>
 #include <algorithm> 
-#include <execution>
 
 int main() {
 	for (char fileCounter{ '1' }; fileCounter <= '5'; ++fileCounter) {
 		auto coordinates = getInputData(fileCounter);
-		auto resoult = calculate(coordinates);
-		std::cout << fileCounter << ": " << resoult << std::endl;
+		if (coordinates.size() > 0) {
+			auto resoult = calculate(coordinates);
+			printOut(fileCounter, resoult);
+		}
 	}
 }
 
@@ -53,15 +54,13 @@ void closeFile(std::ifstream& fileHandler) {
 	fileHandler.close();
 }
 
-//calculate the answer
-int calculate(std::vector<std::pair<int, int>>& dots) {
-	if (dots.size() > 0) {
-		std::pair<int, int> medianX = calculateMedianX(dots);
-		std::pair<int, int> medianY = calculateMedianY(dots);
-		auto pieces = checkMedianPoints(dots, medianX, medianY);
-		return pieces;
-	}
-	return -1;
+//calculate the answers
+std::pair<long long, int> calculate(std::vector<std::pair<int, int>>& dots) {
+	std::pair<int, int> medianX = calculateMedianX(dots);
+	std::pair<int, int> medianY = calculateMedianY(dots);
+	auto pieces = checkMedianPoints(dots, medianX, medianY);
+	auto distances = calculateDistances(dots, medianX.first, medianY.first);
+	return std::pair<long long, int>(distances, pieces);
 }
 //calculate the median points of x coordinates
 std::pair<int, int> calculateMedianX(std::vector<std::pair<int, int>>& dots) {
@@ -84,19 +83,24 @@ int checkMedianPoints(std::vector<std::pair<int, int>>& dots, std::pair<int, int
 	int pieces{ 0 };
 	for (int x = medianx.first; x <= medianx.second; ++x) {
 		for (int y = mediany.first; y <= mediany.second; ++y) {
-			if (!isItOccupied(dots, x, y)) {
+			if (std::find(dots.begin(), dots.end(), std::pair<int, int>(x, y)) == dots.end()) {
 				++pieces;
 			}
 		}
 	}
 	return pieces;
 }
-//decide whether a dpoint on the map is occupied or not
-bool isItOccupied(std::vector<std::pair<int, int>>& dots, int x, int y) {
+//calculate the total distances of dots from any medialPoint
+long long calculateDistances(std::vector<std::pair<int, int>>& dots, int x, int y) {
+	long long resoult{ 0 };
 	for (auto& dot : dots) {
-		if (x == dot.first && y == dot.second) {
-			return true;
-		}
+		resoult += abs(dot.first - x);
+		resoult += abs(dot.second - y);
 	}
-	return false;
+	return resoult;
+}
+
+//print out the resoult to the standard output
+void printOut(char fileCounter, std::pair<long long, int>& resoult) {
+	std::cout << fileCounter << ": " << resoult.first << " " << resoult.second << std::endl;
 }
