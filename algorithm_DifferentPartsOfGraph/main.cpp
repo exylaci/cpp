@@ -2,10 +2,12 @@
 #include <iostream>
 
 int main() {
-	for (char fileCounter{ '1' }; fileCounter <= '2'; ++fileCounter) {
+	for (char fileCounter{ '1' }; fileCounter <= '6'; ++fileCounter) {
 		hierarchy.clear();
+		hashs.clear();
 		if (getInputData(fileCounter)) {
-			std::cout << fileCounter << ": " << hierarchy.size() << std::endl;
+			auto answer = countDifferents();
+			std::cout << fileCounter << ": " << answer << std::endl;
 		}
 	}
 }
@@ -61,4 +63,26 @@ void closeFile(std::ifstream& fileHandler) {
 	fileHandler.close();
 }
 
-
+//count the different subparts of the hierarchy graph
+int countDifferents() {
+	hierarchy.at(0).first = getHash(0);
+	return hashs.size();
+}
+//get the hash code of a member
+size_t getHash(int id) {
+	if (hierarchy.at(id).first > 0) {
+		return hierarchy.at(id).first;
+	}
+	if (hierarchy.at(id).second.size() == 0) {
+		hierarchy.at(id).first = std::hash<size_t>{}(0);
+		hashs.insert(hierarchy.at(id).first);
+		return hierarchy.at(id).first;
+	}
+	size_t hash{ 0 };
+	for (auto one : hierarchy.at(id).second) {
+		hash += getHash(one);
+	}
+	hierarchy.at(id).first = std::hash<size_t>{}(hash);
+	hashs.insert(hierarchy.at(id).first);
+	return hierarchy.at(id).first;
+}
