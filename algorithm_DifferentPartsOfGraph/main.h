@@ -22,10 +22,10 @@ void addToHierarchyList(int x);
 void addToLeadersList(int y, int x);
 
 int countDifferents();
-size_t getHash(int id);
-void calculateItsUnderlingsHashs(int& id);
-const size_t getCalculatedHash(int id);
-void calculateOneHash(int id, size_t amount);
-size_t iterateOnItsUnderlings(int& id);
+const size_t& getHash(const int& id);
+void calculateItsUnderlingsHashs(const int& id);
+const size_t& getCalculatedHash(const int& id);
+void calculateOneHash(const int& id, const size_t& amount);
+const size_t& iterateOnItsUnderlings(const int& id);
 
 void printOutAnswer(char fileCounter, int answer);
