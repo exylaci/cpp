@@ -3,13 +3,18 @@
 
 int main() {
 	for (char fileCounter{ '1' }; fileCounter <= '6'; ++fileCounter) {
-		hierarchy.clear();
-		hashs.clear();
+		cleanUp();
 		if (getInputData(fileCounter)) {
 			auto answer = countDifferents();
-			std::cout << fileCounter << ": " << answer << std::endl;
+			printOutAnswer(fileCounter, answer);
 		}
 	}
+}
+
+//erase the previous data before start new calculation 
+void cleanUp() {
+	hierarchy.clear();
+	hashs.clear();
 }
 
 //build up file name, open input file, load data from input file, close input file
@@ -39,6 +44,10 @@ std::ifstream openFile(const std::string& filename) {
 	}
 	return fileHandler;
 }
+//close input file
+void closeFile(std::ifstream& fileHandler) {
+	fileHandler.close();
+}
 //load data from input file
 void loadDataFromFile(std::ifstream& fileHandler) {
 	int x;
@@ -58,10 +67,6 @@ void addToHierarchyList(int x) {
 void addToLeadersList(int y, int x) {
 	hierarchy.at(y).second.emplace_back(x);
 }
-//close input file
-void closeFile(std::ifstream& fileHandler) {
-	fileHandler.close();
-}
 
 //count the different subparts of the hierarchy graph
 int countDifferents() {
@@ -71,18 +76,39 @@ int countDifferents() {
 //get the hash code of a member
 size_t getHash(int id) {
 	if (hierarchy.at(id).first > 0) {
-		return hierarchy.at(id).first;
+		return getCalculatedHash(id);
 	}
 	if (hierarchy.at(id).second.size() == 0) {
-		hierarchy.at(id).first = std::hash<size_t>{}(0);
-		hashs.insert(hierarchy.at(id).first);
-		return hierarchy.at(id).first;
+		calculateOneHash(id, 0);
+		return getCalculatedHash(id);
 	}
+	calculateItsUnderlingsHashs(id);
+	return getCalculatedHash(id);
+}
+//return the already calculated hash of its member
+const size_t getCalculatedHash(int id) {
+	return hierarchy.at(id).first;
+}
+//calculate the hash of a member without underling
+void calculateOneHash(int id, size_t amount) {
+	hierarchy.at(id).first = std::hash<size_t>{}(amount);
+	hashs.insert(hierarchy.at(id).first);
+}
+//calculate the underling members' hashs of this member
+void calculateItsUnderlingsHashs(int& id) {
+	auto underlingsHash = iterateOnItsUnderlings(id);
+	calculateOneHash(id, underlingsHash);
+}
+//cumulate the hashs of its underlings
+size_t iterateOnItsUnderlings(int& id) {
 	size_t hash{ 0 };
 	for (auto one : hierarchy.at(id).second) {
 		hash += getHash(one);
 	}
-	hierarchy.at(id).first = std::hash<size_t>{}(hash);
-	hashs.insert(hierarchy.at(id).first);
-	return hierarchy.at(id).first;
+	return hash;
+}
+
+//print out the resoult of the calculation
+void printOutAnswer(char fileCounter, int answer) {
+	std::cout << fileCounter << ": " << answer << std::endl;
 }
