@@ -3,21 +3,20 @@
 #include <iomanip>
 #include <chrono>
 
-//take over data copy from variables (original version) 10x5. 280'059 msec 
-//take over the references variables (in tis version)   10x5. 293'124 msec 
+//take over data copy from variables (original version)  10x5. 291'225 msec 
+//take over the references variables (2nd version)       10x5. 293'124 msec 
+//inline to avoid variables take overs (3rd version)     10x5. 290'762 msec 
 
 int main() {
+	auto startTime = std::chrono::system_clock::now();
 	for (char fileCounter{ '1' }; fileCounter <= '6'; ++fileCounter) {
-		auto startTime = std::chrono::system_clock::now();
-		for (int i = 0; i < 10; ++i) {
 		cleanUp();
 		if (getInputData(fileCounter)) {
 			auto answer = countDifferents();
 			printOutAnswer(fileCounter, answer);
 		}
-		}
-		std::cout << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count();
 	}
+	std::cout << std::setw(5) << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startTime).count() << std::endl;
 }
 
 //erase the previous data before start new calculation 
@@ -83,7 +82,7 @@ int countDifferents() {
 	return hashs.size();
 }
 //get the hash code of a member
-const size_t& getHash(const int& id) {
+size_t getHash(int id) {
 	if (hierarchy.at(id).first > 0) {
 		return getCalculatedHash(id);
 	}
@@ -95,23 +94,23 @@ const size_t& getHash(const int& id) {
 	return getCalculatedHash(id);
 }
 //return the already calculated hash of its member
-const size_t& getCalculatedHash(const int& id) {
+inline size_t getCalculatedHash(int id) {
 	return hierarchy.at(id).first;
 }
 //calculate the hash of a member without underling
-void calculateOneHash(const int& id, const size_t& amount) {
+inline void calculateOneHash(int id, size_t amount) {
 	hierarchy.at(id).first = std::hash<size_t>{}(amount);
 	hashs.insert(hierarchy.at(id).first);
 }
 //calculate the underling members' hashs of this member
-void calculateItsUnderlingsHashs(const int& id) {
+inline void calculateItsUnderlingsHashs(int id) {
 	auto underlingsHash = iterateOnItsUnderlings(id);
 	calculateOneHash(id, underlingsHash);
 }
 //cumulate the hashs of its underlings
-const size_t& iterateOnItsUnderlings(const int& id) {
+inline size_t iterateOnItsUnderlings(int id) {
 	size_t hash{ 0 };
-	for (const auto& one : hierarchy.at(id).second) {
+	for (auto one : hierarchy.at(id).second) {
 		hash += getHash(one);
 	}
 	return hash;
